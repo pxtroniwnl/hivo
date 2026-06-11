@@ -16,7 +16,7 @@ export function JoinClanStrip({ onOpen }: JoinClanStripProps) {
     >
       {/* Glow del proto: círculo accent opacity 0.08 con blur(28px);
           se aproxima sin blur, igual que el glow del TodayHero. */}
-      <View style={styles.glow} pointerEvents="none" />
+      <View style={styles.glow} />
       <View style={styles.iconBubble}>
         <Icon.squad size={22} color={colors.accent} />
       </View>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: colors.accent,
     opacity: 0.08,
+    pointerEvents: 'none',
   },
   iconBubble: {
     width: 44,

@@ -137,10 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // El proto desplaza el triángulo 3px para centrarlo ópticamente.
     paddingLeft: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 30,
-    shadowOpacity: 0.4,
+    boxShadow: '0 8px 30px rgba(0,0,0,0.4)',
   },
   videoMeta: {
     position: 'absolute',

@@ -130,7 +130,7 @@ export function TodayHero({
         {/* Glow radial de acento: el prototipo usa un círculo de 180px con filter: blur(40px).
             RN no tiene blur nativo barato aquí, así que se aproxima con el mismo círculo,
             misma opacidad (0.15) pero sin blur (ver nota en CLAUDE.md/plan). */}
-        <View style={styles.glow} pointerEvents="none" />
+        <View style={styles.glow} />
         <View style={styles.heroInner}>
           <View style={styles.topRow}>
             <Chip variant="acc" icon={<Icon.bolt size={11} color={colors.accent} />}>
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     backgroundColor: colors.accent,
     opacity: 0.15,
+    pointerEvents: 'none',
   },
   headRow: {
     flexDirection: 'row',
