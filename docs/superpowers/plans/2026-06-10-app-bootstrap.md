@@ -239,10 +239,10 @@ git add -A && git commit -m "feat(home): today-slot logic as tested pure functio
 **Files:**
 - Create: `src/components/home/TodayHero.tsx` (home.jsx:314-443 — 4 estados: sin programa / rest / off-day / rutina con glow radial accent — el glow `blur(40px)` se aproxima con un círculo `accent` opacity 0.15 sin blur, documentar), `WeekStrip.tsx` (home.jsx:43-71), `DayDetail.tsx` (home.jsx:844-891 wrapper + PastWorkoutDetail l.137-199 + PlannedWorkoutDetail l.201-230 + RestDayCard l.232-252)
 
-- [ ] **Step 1: WeekStrip** — 7 botones flex, estados done/rest/today/planned/selected, dot de 5px
-- [ ] **Step 2: TodayHero** — usa `getGreeting`/`findTodaySlot`/`estimateMinutes` de Task 6
-- [ ] **Step 3: DayDetail** (Past/Planned/Rest)
-- [ ] **Step 4: Verificar y commit**
+- [x] **Step 1: WeekStrip** — 7 botones flex, estados done/rest/today/planned/selected, dot de 5px
+- [x] **Step 2: TodayHero** — usa `getGreeting`/`findTodaySlot`/`estimateMinutes` de Task 6
+- [x] **Step 3: DayDetail** (Past/Planned/Rest)
+- [x] **Step 4: Verificar y commit**
 
 ```bash
 npx tsc --noEmit && npx expo lint
