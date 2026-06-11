@@ -33,7 +33,7 @@
 - Create: `package.json`, `app.json`, `tsconfig.json`, `app/`, `assets/` (generados por create-expo-app)
 - Modify: `.gitignore`
 
-- [ ] **Step 1: Generar proyecto en dir temporal y fusionar a la raíz** (create-expo-app rechaza dirs no vacíos)
+- [x] **Step 1: Generar proyecto en dir temporal y fusionar a la raíz** (create-expo-app rechaza dirs no vacíos)
 
 ```bash
 cd /tmp && rm -rf hivo-scaffold && npx create-expo-app@latest hivo-scaffold --template default --no-install
@@ -42,20 +42,20 @@ rsync -a --exclude='.git' /tmp/hivo-scaffold/ /home/pxtroniwnl/Documents/project
 cd /home/pxtroniwnl/Documents/projects/personal/hivo && npm install
 ```
 
-- [ ] **Step 2: Limpiar pantallas de ejemplo del template** (dejar `app/_layout.tsx` y un `app/index.tsx` mínimo; el template trae tabs de ejemplo que se reescriben en Task 4)
+- [x] **Step 2: Limpiar pantallas de ejemplo del template** (dejar `app/_layout.tsx` y un `app/index.tsx` mínimo; el template trae tabs de ejemplo que se reescriben en Task 4)
 
-- [ ] **Step 3: tsconfig estricto + alias `@/`**
+- [x] **Step 3: tsconfig estricto + alias `@/`**
 
 `tsconfig.json` debe contener `"strict": true` y paths `"@/*": ["./src/*"]` (el template ya trae `@/*` → raíz; ajustar a `./src/*` o usar el de raíz — mantener el del template si funciona, no pelearse con él).
 
-- [ ] **Step 4: Verificar**
+- [x] **Step 4: Verificar**
 
 ```bash
 npx tsc --noEmit   # esperado: sin errores
 npx expo lint      # esperado: sin errores (instalar eslint-config-expo si pregunta)
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A && git commit -m "chore: scaffold Expo app with TypeScript and expo-router"
@@ -70,7 +70,7 @@ git add -A && git commit -m "chore: scaffold Expo app with TypeScript and expo-r
 - Create: `assets/fonts/` (TTFs de Geist 400/500/600/700 y JetBrains Mono 400/500/600)
 - Modify: `app/_layout.tsx`
 
-- [ ] **Step 1: `src/theme/tokens.ts`** — valores EXACTOS de `hivo-design/tokens.css:3-51`:
+- [x] **Step 1: `src/theme/tokens.ts`** — valores EXACTOS de `hivo-design/tokens.css:3-51`:
 
 ```ts
 // Tokens canónicos de hivo-design/tokens.css — NO modificar sin actualizar el prototipo.
@@ -88,7 +88,7 @@ export const space = { s1: 4, s2: 8, s3: 12, s4: 16, s5: 20, s6: 24, s7: 32 } as
 export const screenInset = 18;
 ```
 
-- [ ] **Step 2: `src/theme/typography.ts`** — escala exacta de `tokens.css:86-93`:
+- [x] **Step 2: `src/theme/typography.ts`** — escala exacta de `tokens.css:86-93`:
 
 ```ts
 import { TextStyle } from 'react-native';
@@ -112,11 +112,11 @@ export const type: Record<string, TextStyle> = {
 // Números siempre con fonts.mono* + fontVariant: ['tabular-nums'].
 ```
 
-- [ ] **Step 3: Fuentes** — intentar `npx expo install @expo-google-fonts/geist @expo-google-fonts/jetbrains-mono expo-font`; si el paquete de Geist no existe, descargar TTFs del repo oficial de Vercel (licencia OFL) a `assets/fonts/` y cargarlos con `useFonts` de expo-font con los nombres `Geist-Regular` etc.
+- [x] **Step 3: Fuentes** — intentar `npx expo install @expo-google-fonts/geist @expo-google-fonts/jetbrains-mono expo-font`; si el paquete de Geist no existe, descargar TTFs del repo oficial de Vercel (licencia OFL) a `assets/fonts/` y cargarlos con `useFonts` de expo-font con los nombres `Geist-Regular` etc.
 
-- [ ] **Step 4: `app/_layout.tsx`** — cargar fuentes, fondo `colors.bg0`, status bar `light`, sin header. Pantalla de carga = `View` negro mientras `!fontsLoaded`.
+- [x] **Step 4: `app/_layout.tsx`** — cargar fuentes, fondo `colors.bg0`, status bar `light`, sin header. Pantalla de carga = `View` negro mientras `!fontsLoaded`.
 
-- [ ] **Step 5: Verificar y commit**
+- [x] **Step 5: Verificar y commit**
 
 ```bash
 npx tsc --noEmit && npx expo lint
@@ -146,15 +146,15 @@ Specs por componente (fuente exacta en el prototipo):
 | `Sheet` | active.jsx:657-692 | RN `Modal transparent animationType="slide"`, scrim rgba(0,0,0,0.5), panel bg2 radio 20 arriba, handle 36×4, botón close 30px |
 | `Stat` | home.jsx:445-452 | label xs + valor mono 15/500 |
 
-- [ ] **Step 1: Instalar deps**
+- [x] **Step 1: Instalar deps**
 
 ```bash
 npx expo install react-native-svg expo-blur react-native-reanimated
 ```
 
-- [ ] **Step 2: Implementar `icons.tsx`** (copiar paths SVG literales de ui.jsx)
-- [ ] **Step 3: Implementar los 9 componentes** según tabla
-- [ ] **Step 4: Verificar y commit**
+- [x] **Step 2: Implementar `icons.tsx`** (copiar paths SVG literales de ui.jsx)
+- [x] **Step 3: Implementar los 9 componentes** según tabla
+- [x] **Step 4: Verificar y commit**
 
 ```bash
 npx tsc --noEmit && npx expo lint
@@ -173,10 +173,10 @@ Spec del tab bar (tokens.css:177-195 + app.jsx:143-161): 5 tabs `Today/Train/Squ
 
 Cada placeholder: `ScreenHeader` con el título + texto `t-sm` "Coming soon".
 
-- [ ] **Step 1: Implementar `(tabs)/_layout.tsx`** con `tabBarBackground` custom
-- [ ] **Step 2: Placeholders de las 5 pantallas**
-- [ ] **Step 3: Probar en navegador** (`npx expo start` → `w`) — los 5 tabs navegan, estética correcta
-- [ ] **Step 4: Verificar y commit**
+- [x] **Step 1: Implementar `(tabs)/_layout.tsx`** con `tabBarBackground` custom
+- [x] **Step 2: Placeholders de las 5 pantallas**
+- [x] **Step 3: Probar en navegador** (`npx expo start` → `w`) — los 5 tabs navegan, estética correcta
+- [x] **Step 4: Verificar y commit**
 
 ```bash
 npx tsc --noEmit && npx expo lint
@@ -191,9 +191,9 @@ git add -A && git commit -m "feat(nav): five-tab shell with glass tab bar"
 - Create: `src/data/types.ts` — interfaces `User`, `Clan`, `Raid`, `Mission`, `WeekDay`, `WorkoutSummary`, `Warmup`, `FeedItem`, `Notification`, `Routine`, `Workout`, `WorkoutDay`
 - Create: `src/data/mock.ts` — portar de `hivo-design/ui.jsx`: `USER` (l.169-180), `CLAN` (l.182-210), `WARMUPS` (l.233-299), `FEED` (l.358-362), `WEEK` (l.364-397), `ROUTINES` (l.403-470), `WORKOUTS` (l.473-544), `NOTIFICATIONS` (l.637-643). Copiar literal.
 
-- [ ] **Step 1: Escribir types.ts** (derivar interfaces de las shapes literales)
-- [ ] **Step 2: Escribir mock.ts** tipado contra types.ts
-- [ ] **Step 3: Verificar y commit**
+- [x] **Step 1: Escribir types.ts** (derivar interfaces de las shapes literales)
+- [x] **Step 2: Escribir mock.ts** tipado contra types.ts
+- [x] **Step 3: Verificar y commit**
 
 ```bash
 npx tsc --noEmit
