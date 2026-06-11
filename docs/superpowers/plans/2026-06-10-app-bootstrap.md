@@ -215,18 +215,18 @@ Funciones (extraídas de `hivo-design/home.jsx:314-399,524-529`):
 - `estimateMinutes(routine: Routine): number` — `round(Σ sets × (rest/60 + 1))`
 - `totalSets(routine: Routine): number`
 
-- [ ] **Step 1: Instalar jest**
+- [x] **Step 1: Instalar jest**
 
 ```bash
 npx expo install jest-expo jest @types/jest
 # package.json: "test": "jest", "jest": { "preset": "jest-expo" }
 ```
 
-- [ ] **Step 2: Escribir tests que fallan** (casos: greeting en 0/11/12/17/18/23h; estimateMinutes con la rutina r-m1 del mock = round(5×(150/60+1) + 3×(90/60+1) + 3×(75/60+1) + 3×(60/60+1) + 3×(90/60+1)); slot de rest; día fuera del programa)
-- [ ] **Step 3: Run** `npx jest` — esperado: FAIL (módulo no existe)
-- [ ] **Step 4: Implementar `today.ts`**
-- [ ] **Step 5: Run** `npx jest` — esperado: PASS
-- [ ] **Step 6: Commit**
+- [x] **Step 2: Escribir tests que fallan** (casos: greeting en 0/11/12/17/18/23h; estimateMinutes con la rutina r-m1 del mock = round(5×(150/60+1) + 3×(90/60+1) + 3×(75/60+1) + 3×(60/60+1) + 3×(90/60+1)); slot de rest; día fuera del programa)
+- [x] **Step 3: Run** `npx jest` — esperado: FAIL (módulo no existe)
+- [x] **Step 4: Implementar `today.ts`**
+- [x] **Step 5: Run** `npx jest` — esperado: PASS
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A && git commit -m "feat(home): today-slot logic as tested pure functions"
