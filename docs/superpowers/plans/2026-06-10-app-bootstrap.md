@@ -256,12 +256,12 @@ git add -A && git commit -m "feat(home): today hero, week strip and day detail"
 **Files:**
 - Create: `src/components/home/StreakSpiral.tsx` (home.jsx:254-312 — espiral de Arquímedes en react-native-svg Path, gradiente con `Defs/LinearGradient`, shields orbitando), `ClanStrip.tsx` + `JoinClanStrip.tsx` (home.jsx:454-515, corrigiendo el bug del style duplicado), `WarmupCarousel.tsx` (WarmupCard home.jsx:663-692 en `ScrollView horizontal` con `snapToInterval`), `WarmupSheet.tsx` (home.jsx:694-792), `NotificationsSheet.tsx` (home.jsx:797-841), `FeedPreview.tsx` (home.jsx:621-644), `RecoveryDial.tsx` (home.jsx:4-41 — se exporta pero NO se monta en Home, igual que el prototipo; lo usará Stats)
 
-- [ ] **Step 1: StreakSpiral** (generar path con el mismo algoritmo: 80 puntos, turns = min(6, floor(days/10)+2))
-- [ ] **Step 2: ClanStrip / JoinClanStrip**
-- [ ] **Step 3: WarmupCarousel + WarmupSheet** (selector de ejercicio, CTA "Next/Finish")
-- [ ] **Step 4: NotificationsSheet** (estado read/unread, "Mark all read")
-- [ ] **Step 5: FeedPreview + RecoveryDial**
-- [ ] **Step 6: Verificar y commit**
+- [x] **Step 1: StreakSpiral** (generar path con el mismo algoritmo: 80 puntos, turns = min(6, floor(days/10)+2))
+- [x] **Step 2: ClanStrip / JoinClanStrip**
+- [x] **Step 3: WarmupCarousel + WarmupSheet** (selector de ejercicio, CTA "Next/Finish")
+- [x] **Step 4: NotificationsSheet** (estado read/unread, "Mark all read")
+- [x] **Step 5: FeedPreview + RecoveryDial**
+- [x] **Step 6: Verificar y commit**
 
 ```bash
 npx tsc --noEmit && npx expo lint
@@ -275,16 +275,16 @@ git add -A && git commit -m "feat(home): streak spiral, clan strip, warmups, not
 **Files:**
 - Replace: `app/(tabs)/index.tsx` — HomeScreen (home.jsx:517-650): topbar (Avatar + greeting + bell con dot), TodayHero, carrusel warmups, "This week" + WeekStrip (selección ≠ hoy → DayDetail), StreakSpiral, JoinClanStrip (estado inicial sin clan, como app.jsx:41 `userClan = null`), sheets condicionales. Entradas animadas con `FadeInDown` escalonado (equivale a Reveal/stagger).
 
-- [ ] **Step 1: Implementar pantalla completa con estado (selectedIdx, notifsOpen, warmupOpen)**
-- [ ] **Step 2: Probar interacciones en navegador**: tap día pasado → detalle con resumen y PRs; volver a hoy; abrir warmup sheet y avanzar ejercicios; abrir notificaciones y marcar leídas
-- [ ] **Step 3: Verificación final completa**
+- [x] **Step 1: Implementar pantalla completa con estado (selectedIdx, notifsOpen, warmupOpen)**
+- [x] **Step 2: Probar interacciones en navegador**: tap día pasado → detalle con resumen y PRs; volver a hoy; abrir warmup sheet y avanzar ejercicios; abrir notificaciones y marcar leídas
+- [x] **Step 3: Verificación final completa**
 
 ```bash
 npx tsc --noEmit && npx expo lint && npx jest
 # npx expo start → comparar lado a lado con hivo-design/Hivo Prototype.html
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A && git commit -m "feat(home): assemble Today screen"
