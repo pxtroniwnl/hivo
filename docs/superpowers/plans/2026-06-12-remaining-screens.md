@@ -1,6 +1,6 @@
 # Hivo Remaining Screens Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Portar al app Expo todas las pantallas restantes del prototipo: estado global, auth, Train (lista + editores + AI Coach), logger activo, Squad + clan onboarding, Stats, Profile y heatmap corporal.
 
@@ -40,19 +40,19 @@ El shell del prototipo (`app.jsx:32-141`) mantiene `authedUser`, `userClan`, `my
 - Modify: `src/app/(tabs)/_layout.tsx` (ocultar tab Squad si `!gamification` — `app.jsx:147`)
 - Modify: `src/app/(tabs)/index.tsx` (leer `userClan` del context en vez de estado local, si aplica)
 
-- [ ] **Step 1: Implementar `src/state/app-state.tsx`**
+- [x] **Step 1: Implementar `src/state/app-state.tsx`**
 
 Context + provider con: `authedUser: User | null` (inicial `null`), `userClan: Clan | null` (inicial `null`), `gamification: boolean` (inicial `true`), `myRoutines: Routine[]` (inicial copia profunda de `ROUTINES.mine`), `myWorkouts: Workout[]` (inicial copia profunda de `WORKOUTS.mine`), `draftRoutine: Routine | null`, `draftWorkout: Workout | null` (para los editores, Task 5-6) y sus setters. Hook `useAppState()` que lanza si no hay provider. Fuente: `app.jsx:34-41`.
 
-- [ ] **Step 2: Montar provider en `src/app/_layout.tsx`** (dentro, el `Stack` actual)
-- [ ] **Step 3: Tab Squad condicional** en `(tabs)/_layout.tsx`: si `!gamification`, ocultar el tab (con expo-router: `<Tabs.Screen name="squad" options={{ href: null }} />` condicional)
-- [ ] **Step 4: Verificar**
+- [x] **Step 2: Montar provider en `src/app/_layout.tsx`** (dentro, el `Stack` actual)
+- [x] **Step 3: Tab Squad condicional** en `(tabs)/_layout.tsx`: si `!gamification`, ocultar el tab (con expo-router: `<Tabs.Screen name="squad" options={{ href: null }} />` condicional)
+- [x] **Step 4: Verificar**
 
 ```bash
 npx tsc --noEmit && npx expo lint && npx jest
 ```
 
-- [ ] **Step 5: Commit** — `feat(state): global app state provider`
+- [x] **Step 5: Commit** — `feat(state): global app state provider`
 
 ---
 

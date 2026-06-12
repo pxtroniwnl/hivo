@@ -5,6 +5,7 @@ import { Tabs } from 'expo-router';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { Icon, type IconProps } from '@/components/ui';
+import { useAppState } from '@/state/app-state';
 import { colors, fonts } from '@/theme';
 
 function TabBarBackground() {
@@ -30,6 +31,7 @@ const TABS: { name: string; title: string; icon: (p: IconProps) => React.ReactNo
 ];
 
 export default function TabsLayout() {
+  const { gamification } = useAppState();
   return (
     <Tabs
       screenOptions={{
@@ -59,6 +61,8 @@ export default function TabsLayout() {
           options={{
             title: tab.title,
             tabBarIcon: ({ color }) => tab.icon({ size: 22, color: String(color) }),
+            // Kill-switch de gamificación (app.jsx:147): sin Squad si está apagado.
+            ...(tab.name === 'squad' && !gamification ? { href: null } : null),
           }}
         />
       ))}
