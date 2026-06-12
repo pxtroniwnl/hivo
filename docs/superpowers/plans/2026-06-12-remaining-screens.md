@@ -80,11 +80,11 @@ Fuentes en `hivo-design/auth.jsx`: AuthScreen l.4-97, HivoMark l.99-115, LoginFo
 
 Fuentes en `hivo-design/body.jsx`: BodyHeatmap l.4-21, BodyView l.23-100, BodyOutline l.102-135, HeatmapLegend l.137-150. Frente/espalda lado a lado, 16+ grupos musculares con intensidad 0..1. La interpolación de color gris→acento se extrae como función pura `heatColor(v: number): string` en `src/lib/heat.ts` (copiar la fórmula exacta del prototipo).
 
-- [ ] **Step 1 (TDD): Test de `heatColor`** — casos v=0 (gris base), v=1 (acento pleno), v=0.5 (mezcla), clamp fuera de rango. Run `npx jest heat` → FAIL
-- [ ] **Step 2: Implementar `src/lib/heat.ts`** → `npx jest heat` PASS
-- [ ] **Step 3: Portar BodyHeatmap con react-native-svg** (paths literales de BodyOutline)
-- [ ] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 5: Commit** — `feat(body): reusable SVG muscle heatmap`
+- [x] **Step 1 (TDD): Test de `heatColor`** — casos v=0 (gris base), v=1 (acento pleno), v=0.5 (mezcla), clamp fuera de rango. Run `npx jest heat` → FAIL
+- [x] **Step 2: Implementar `src/lib/heat.ts`** → `npx jest heat` PASS
+- [x] **Step 3: Portar BodyHeatmap con react-native-svg** (paths literales de BodyOutline)
+- [x] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 5: Commit** — `feat(body): reusable SVG muscle heatmap`
 
 ---
 
