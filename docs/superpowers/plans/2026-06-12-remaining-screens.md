@@ -102,13 +102,13 @@ Navegación: abrir rutina/workout = `setDraftRoutine(copia profunda)` / `setDraf
 
 Lógica pura en `src/lib/library.ts`: `filterTrending(items, { level, type, query })` (la de TrendingSection) y `setActiveWorkout(workouts, id)` (toggle exclusivo de `current`, `train.jsx:162`).
 
-- [ ] **Step 1 (TDD): Tests de `filterTrending` y `setActiveWorkout`** → FAIL
-- [ ] **Step 2: Implementar `src/lib/library.ts`** → PASS
-- [ ] **Step 3: Portar componentes de lista** + reemplazar tab Train
-- [ ] **Step 4: Rutas placeholder de editores** (ScreenHeader con back, leen el draft del context y muestran el nombre)
-- [ ] **Step 5: Probar en navegador**: tabs internas, búsqueda y filtros de Trending, set active, navegar a placeholders
-- [ ] **Step 6: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 7: Commit** — `feat(train): library list with search, filters and active workout toggle`
+- [x] **Step 1 (TDD): Tests de `filterTrending` y `setActiveWorkout`** → FAIL
+- [x] **Step 2: Implementar `src/lib/library.ts`** → PASS
+- [x] **Step 3: Portar componentes de lista** + reemplazar tab Train
+- [x] **Step 4: Rutas placeholder de editores** (ScreenHeader con back, leen el draft del context y muestran el nombre)
+- [x] **Step 5: Probar en navegador**: tabs internas, búsqueda y filtros de Trending, set active, navegar a placeholders
+- [x] **Step 6: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 7: Commit** — `feat(train): library list with search, filters and active workout toggle`
 
 ---
 

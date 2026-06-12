@@ -20,15 +20,17 @@ import { WarmupCarousel } from '@/components/home/WarmupCarousel';
 import { WarmupSheet } from '@/components/home/WarmupSheet';
 import { WeekStrip } from '@/components/home/WeekStrip';
 import { Avatar, Icon } from '@/components/ui';
-import { ROUTINES, USER, WARMUPS, WEEK, WORKOUTS } from '@/data/mock';
+import { ROUTINES, USER, WARMUPS, WEEK } from '@/data/mock';
 import type { Warmup } from '@/data/types';
 import { getGreeting } from '@/lib/today';
+import { useAppState } from '@/state/app-state';
 import { colors, radii, screenInset, type } from '@/theme';
 
 export default function TodayScreen() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const router = useRouter();
+  const { myWorkouts, myRoutines } = useAppState();
 
   const todayIdx = WEEK.findIndex((d) => d.status === 'today');
   const [selectedIdx, setSelectedIdx] = useState(todayIdx);
@@ -91,8 +93,8 @@ export default function TodayScreen() {
             {/* Hero del entreno de hoy */}
             <View style={styles.heroWrap}>
               <TodayHero
-                myWorkouts={WORKOUTS.mine}
-                myRoutines={ROUTINES.mine}
+                myWorkouts={myWorkouts}
+                myRoutines={myRoutines}
                 trendingRoutines={ROUTINES.trending}
                 onGoToTrain={() => router.navigate('/train')}
               />
