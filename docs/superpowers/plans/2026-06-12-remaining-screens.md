@@ -135,10 +135,10 @@ Fuentes en `hivo-design/train.jsx`: RoutineDetail l.972-1158, EditableExerciseRo
 
 Fuentes en `hivo-design/train.jsx`: WorkoutDetail l.660-914 (días de la semana, cada día apunta a una Routine de `myRoutines` o rest; abrir routine desde un día → draftRoutine + push), DayPicker l.916-931, LevelPicker l.933-970. Guardar = upsert en `myWorkouts` (`train.jsx:103-111`) + back.
 
-- [ ] **Step 1: Portar WorkoutDetail + pickers**
-- [ ] **Step 2: Probar en navegador**: crear workout nuevo, asignar rutinas a días, marcar rest, guardar
-- [ ] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 4: Commit** — `feat(train): weekly workout editor`
+- [x] **Step 1: Portar WorkoutDetail + pickers**
+- [x] **Step 2: Probar en navegador**: crear workout nuevo, asignar rutinas a días, marcar rest, guardar
+- [x] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 4: Commit** — `feat(train): weekly workout editor`
 
 ---
 

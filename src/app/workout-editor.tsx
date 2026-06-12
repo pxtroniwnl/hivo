@@ -1,44 +1,55 @@
-// Editor de Workout — placeholder hasta Task 6 (WorkoutDetail, train.jsx:660+).
+// Ruta del editor de Workout. Guardar = upsert en myWorkouts (train.jsx:103-111).
+// Abrir una rutina desde un día → setea draftRoutine y apila /routine-editor.
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text, View } from 'react-native';
 
-import { Icon, ScreenHeader } from '@/components/ui';
+import { WorkoutDetail } from '@/components/train/WorkoutDetail';
+import type { Routine } from '@/data/types';
 import { useAppState } from '@/state/app-state';
-import { colors, radii } from '@/theme';
+import { colors, type } from '@/theme';
 
 export default function WorkoutEditorRoute() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { draftWorkout } = useAppState();
+  const { draftWorkout, setDraftWorkout, myWorkouts, setMyWorkouts, myRoutines, setDraftRoutine } =
+    useAppState();
+
+  if (!draftWorkout) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.bg0, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={type.sm}>No workout selected.</Text>
+      </View>
+    );
+  }
+
+  const exists = myWorkouts.some((w) => w.id === draftWorkout.id);
+  const isNew = !exists && draftWorkout.author === 'You';
+
+  const save = () => {
+    setMyWorkouts((prev) => {
+      const idx = prev.findIndex((w) => w.id === draftWorkout.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = draftWorkout;
+        return next;
+      }
+      return [{ ...draftWorkout, author: 'You' }, ...prev];
+    });
+  };
+
+  const openRoutine = (r: Routine) => {
+    setDraftRoutine(JSON.parse(JSON.stringify(r)) as Routine);
+    router.push('/routine-editor');
+  };
+
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
-      <ScreenHeader
-        title={draftWorkout?.name ?? 'Workout'}
-        subtitle="Editor coming soon"
-        right={
-          <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Icon.close size={16} color={colors.fgMid} />
-          </Pressable>
-        }
-      />
-    </View>
+    <WorkoutDetail
+      workout={draftWorkout}
+      isNew={isNew}
+      myRoutines={myRoutines}
+      onChange={setDraftWorkout}
+      onSave={save}
+      onBack={() => router.back()}
+      onOpenRoutine={openRoutine}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: colors.bg0,
-  },
-  backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: radii.md,
-    backgroundColor: colors.bg2,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
