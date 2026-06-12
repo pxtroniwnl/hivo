@@ -120,10 +120,10 @@ Lógica pura en `src/lib/library.ts`: `filterTrending(items, { level, type, quer
 
 Fuentes en `hivo-design/train.jsx`: RoutineDetail l.972-1158, EditableExerciseRow l.1160-1233 (reordenar con up/down, eliminar), EditableField l.1235-1286, NumberRow l.1288-1307 (stepper −/+ con min/max/step), TextRow l.1309-1325, MetaCard l.1327-1337, EXERCISE_LIBRARY l.1339-1360 (→ `src/data/exercise-library.ts`, tipado), AddExerciseSheet l.1362-1418 (búsqueda + preview técnica). Guardar = upsert en `myRoutines` (`train.jsx:77-85`) + `router.back()`. "Start" arranca el logger (ruta de Task 8; hasta entonces, deshabilitado o `router.push('/active')` si ya existe).
 
-- [ ] **Step 1: Portar RoutineDetail + subcomponentes + AddExerciseSheet**
-- [ ] **Step 2: Probar en navegador**: editar nombre/sets/reps/rest/RPE, añadir/quitar/reordenar ejercicios, guardar nueva y existente
-- [ ] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 4: Commit** — `feat(train): routine editor with exercise picker`
+- [x] **Step 1: Portar RoutineDetail + subcomponentes + AddExerciseSheet**
+- [x] **Step 2: Probar en navegador**: editar nombre/sets/reps/rest/RPE, añadir/quitar/reordenar ejercicios, guardar nueva y existente
+- [x] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 4: Commit** — `feat(train): routine editor with exercise picker`
 
 ---
 

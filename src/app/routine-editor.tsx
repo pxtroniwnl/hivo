@@ -1,44 +1,47 @@
-// Editor de Routine — placeholder hasta Task 5 (RoutineDetail, train.jsx:972+).
+// Ruta del editor de Routine. El draft vive en el context (lo setea Train);
+// guardar = upsert en myRoutines (train.jsx:77-85).
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text, View } from 'react-native';
 
-import { Icon, ScreenHeader } from '@/components/ui';
+import { RoutineDetail } from '@/components/train/RoutineDetail';
 import { useAppState } from '@/state/app-state';
-import { colors, radii } from '@/theme';
+import { colors, type } from '@/theme';
 
 export default function RoutineEditorRoute() {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { draftRoutine } = useAppState();
+  const { draftRoutine, setDraftRoutine, myRoutines, setMyRoutines } = useAppState();
+
+  if (!draftRoutine) {
+    // Solo alcanzable navegando directo a la URL sin draft.
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.bg0, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={type.sm}>No routine selected.</Text>
+      </View>
+    );
+  }
+
+  const exists = myRoutines.some((r) => r.id === draftRoutine.id);
+  const isNew = !exists && draftRoutine.author === 'You';
+
+  const save = () => {
+    setMyRoutines((prev) => {
+      const idx = prev.findIndex((r) => r.id === draftRoutine.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = draftRoutine;
+        return next;
+      }
+      return [{ ...draftRoutine, author: 'You' }, ...prev];
+    });
+  };
+
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
-      <ScreenHeader
-        title={draftRoutine?.name ?? 'Routine'}
-        subtitle="Editor coming soon"
-        right={
-          <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Icon.close size={16} color={colors.fgMid} />
-          </Pressable>
-        }
-      />
-    </View>
+    <RoutineDetail
+      routine={draftRoutine}
+      isNew={isNew}
+      onChange={setDraftRoutine}
+      onSave={save}
+      onBack={() => router.back()}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: colors.bg0,
-  },
-  backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: radii.md,
-    backgroundColor: colors.bg2,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
