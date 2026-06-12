@@ -151,12 +151,12 @@ Fuentes en `hivo-design/train.jsx`: WorkoutDetail l.660-914 (días de la semana,
 
 Fuentes en `hivo-design/train.jsx`: ShareSheet l.1420-1608 + ShareTarget l.1610-1622 (link mock + targets), SparklesIcon l.1624-1632, COACH_QUESTIONS l.1646-1695, AICoachSheet l.1697-2021 (intake de 6 preguntas → genera workout con rutinas embebidas `_routineData`), StarIcon l.2023-2031. La generación del workout a partir de las respuestas se extrae a `src/lib/coach.ts` (`generateCoachWorkout(answers): Workout` — transcribir la lógica exacta del prototipo). Al añadir: extraer `_routineData` embebidas a `myRoutines` y limpiar los días (`train.jsx:146-161`) — también función pura `absorbCoachWorkout(myRoutines, myWorkouts, w)` en `coach.ts`.
 
-- [ ] **Step 1 (TDD): Tests de `generateCoachWorkout` y `absorbCoachWorkout`** → FAIL
-- [ ] **Step 2: Implementar `src/lib/coach.ts`** → PASS
-- [ ] **Step 3: Portar AICoachSheet (flujo de 6 preguntas + loading + resultado) y ShareSheet**
-- [ ] **Step 4: Probar en navegador**: completar intake, añadir workout generado, verlo en My Workouts con sus rutinas en My Routines
-- [ ] **Step 5: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 6: Commit** — `feat(train): AI coach intake and share sheet`
+- [x] **Step 1 (TDD): Tests de `generateCoachWorkout` y `absorbCoachWorkout`** → FAIL
+- [x] **Step 2: Implementar `src/lib/coach.ts`** → PASS
+- [x] **Step 3: Portar AICoachSheet (flujo de 6 preguntas + loading + resultado) y ShareSheet**
+- [x] **Step 4: Probar en navegador**: completar intake, añadir workout generado, verlo en My Workouts con sus rutinas en My Routines
+- [x] **Step 5: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 6: Commit** — `feat(train): AI coach intake and share sheet`
 
 ---
 

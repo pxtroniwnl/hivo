@@ -6,9 +6,11 @@ import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 import { Chip, Icon, ScreenHeader } from '@/components/ui';
 import type { Routine, Workout } from '@/data/types';
+import type { CoachWorkout } from '@/lib/coach';
 import type { LibraryFilters } from '@/lib/library';
 import { colors, fonts, radii, screenInset, type } from '@/theme';
 
+import { AICoachSheet } from './AICoachSheet';
 import { GradientTile } from './GradientTile';
 import { MyRoutinesSection } from './MyRoutinesSection';
 import { MyWorkoutsSection } from './MyWorkoutsSection';
@@ -31,7 +33,7 @@ type TrainListProps = {
   onBuildRoutine: () => void;
   onBuildWorkout: () => void;
   onSetActive: (id: string) => void;
-  onCoach?: () => void;
+  onAddWorkout: (w: CoachWorkout) => void;
   bottomPadding?: number;
   topPadding?: number;
 };
@@ -44,11 +46,12 @@ export function TrainList({
   onBuildRoutine,
   onBuildWorkout,
   onSetActive,
-  onCoach,
+  onAddWorkout,
   bottomPadding = 24,
   topPadding = 0,
 }: TrainListProps) {
   const [tab, setTab] = useState<TrainTab>('myworkouts');
+  const [coachOpen, setCoachOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState<LibraryFilters['level']>('All');
   const [typeFilter, setTypeFilter] = useState<LibraryFilters['type']>('all');
@@ -76,7 +79,7 @@ export function TrainList({
       {/* AI Coach card (train.jsx:219-254) */}
       <View style={styles.coachWrap}>
         <Pressable
-          onPress={onCoach}
+          onPress={() => setCoachOpen(true)}
           style={({ pressed }) => [styles.coachCard, pressed && styles.pressed]}
         >
           <Svg style={StyleSheet.absoluteFill}>
@@ -144,6 +147,8 @@ export function TrainList({
       {tab === 'myroutines' && (
         <MyRoutinesSection myRoutines={myRoutines} onOpen={onOpenRoutine} onBuild={onBuildRoutine} />
       )}
+
+      {coachOpen && <AICoachSheet onClose={() => setCoachOpen(false)} onAddWorkout={onAddWorkout} />}
     </ScrollView>
   );
 }

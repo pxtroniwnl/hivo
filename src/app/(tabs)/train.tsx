@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TrainList } from '@/components/train/TrainList';
 import type { Routine, Workout } from '@/data/types';
+import { absorbCoachWorkout } from '@/lib/coach';
 import { setActiveWorkout } from '@/lib/library';
 import { useAppState } from '@/state/app-state';
 import { colors } from '@/theme';
@@ -16,7 +17,8 @@ export default function TrainScreen() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const router = useRouter();
-  const { myRoutines, myWorkouts, setMyWorkouts, setDraftRoutine, setDraftWorkout } = useAppState();
+  const { myRoutines, myWorkouts, setMyRoutines, setMyWorkouts, setDraftRoutine, setDraftWorkout } =
+    useAppState();
 
   const openRoutine = (r: Routine) => {
     setDraftRoutine(JSON.parse(JSON.stringify(r)) as Routine);
@@ -69,6 +71,11 @@ export default function TrainScreen() {
         onBuildRoutine={buildRoutine}
         onBuildWorkout={buildWorkout}
         onSetActive={(id) => setMyWorkouts((prev) => setActiveWorkout(prev, id))}
+        onAddWorkout={(w) => {
+          const out = absorbCoachWorkout(myRoutines, myWorkouts, w);
+          setMyRoutines(out.routines);
+          setMyWorkouts(out.workouts);
+        }}
         topPadding={insets.top + 8}
         bottomPadding={tabBarHeight + 24}
       />

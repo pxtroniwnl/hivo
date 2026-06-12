@@ -1,8 +1,10 @@
 // Ruta del editor de Workout. Guardar = upsert en myWorkouts (train.jsx:103-111).
 // Abrir una rutina desde un día → setea draftRoutine y apila /routine-editor.
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Text, View } from 'react-native';
 
+import { ShareSheet } from '@/components/train/ShareSheet';
 import { WorkoutDetail } from '@/components/train/WorkoutDetail';
 import type { Routine } from '@/data/types';
 import { useAppState } from '@/state/app-state';
@@ -12,6 +14,7 @@ export default function WorkoutEditorRoute() {
   const router = useRouter();
   const { draftWorkout, setDraftWorkout, myWorkouts, setMyWorkouts, myRoutines, setDraftRoutine } =
     useAppState();
+  const [shareOpen, setShareOpen] = useState(false);
 
   if (!draftWorkout) {
     return (
@@ -42,14 +45,20 @@ export default function WorkoutEditorRoute() {
   };
 
   return (
-    <WorkoutDetail
-      workout={draftWorkout}
-      isNew={isNew}
-      myRoutines={myRoutines}
-      onChange={setDraftWorkout}
-      onSave={save}
-      onBack={() => router.back()}
-      onOpenRoutine={openRoutine}
-    />
+    <>
+      <WorkoutDetail
+        workout={draftWorkout}
+        isNew={isNew}
+        myRoutines={myRoutines}
+        onChange={setDraftWorkout}
+        onSave={save}
+        onBack={() => router.back()}
+        onOpenRoutine={openRoutine}
+        onShare={() => setShareOpen(true)}
+      />
+      {shareOpen && (
+        <ShareSheet kind="workout" item={draftWorkout} onClose={() => setShareOpen(false)} />
+      )}
+    </>
   );
 }

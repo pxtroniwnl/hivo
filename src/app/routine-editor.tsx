@@ -1,15 +1,18 @@
 // Ruta del editor de Routine. El draft vive en el context (lo setea Train);
 // guardar = upsert en myRoutines (train.jsx:77-85).
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { RoutineDetail } from '@/components/train/RoutineDetail';
+import { ShareSheet } from '@/components/train/ShareSheet';
 import { useAppState } from '@/state/app-state';
 import { colors, type } from '@/theme';
 
 export default function RoutineEditorRoute() {
   const router = useRouter();
   const { draftRoutine, setDraftRoutine, myRoutines, setMyRoutines } = useAppState();
+  const [shareOpen, setShareOpen] = useState(false);
 
   if (!draftRoutine) {
     // Solo alcanzable navegando directo a la URL sin draft.
@@ -36,12 +39,18 @@ export default function RoutineEditorRoute() {
   };
 
   return (
-    <RoutineDetail
-      routine={draftRoutine}
-      isNew={isNew}
-      onChange={setDraftRoutine}
-      onSave={save}
-      onBack={() => router.back()}
-    />
+    <>
+      <RoutineDetail
+        routine={draftRoutine}
+        isNew={isNew}
+        onChange={setDraftRoutine}
+        onSave={save}
+        onBack={() => router.back()}
+        onShare={() => setShareOpen(true)}
+      />
+      {shareOpen && (
+        <ShareSheet kind="routine" item={draftRoutine} onClose={() => setShareOpen(false)} />
+      )}
+    </>
   );
 }
