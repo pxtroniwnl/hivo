@@ -18,6 +18,7 @@ type ButtonProps = Omit<PressableProps, 'style'> & {
   variant?: 'default' | 'primary' | 'ghost';
   block?: boolean;
   icon?: ReactNode;
+  iconRight?: ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
 };
@@ -27,6 +28,7 @@ export function Button({
   variant = 'default',
   block,
   icon,
+  iconRight,
   style,
   textStyle,
   ...rest
@@ -54,6 +56,7 @@ export function Button({
       >
         {children}
       </Text>
+      {iconRight}
     </Pressable>
   );
 }

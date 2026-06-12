@@ -1,7 +1,7 @@
 // Tab bar del prototipo (tokens.css:177-195 + app.jsx:143-161):
 // glass translúcido, iconos 22px, label 10px, activo en accent.
 import { BlurView } from 'expo-blur';
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { Icon, type IconProps } from '@/components/ui';
@@ -31,7 +31,9 @@ const TABS: { name: string; title: string; icon: (p: IconProps) => React.ReactNo
 ];
 
 export default function TabsLayout() {
-  const { gamification } = useAppState();
+  const { gamification, authedUser } = useAppState();
+  // Gate de auth, como el prototipo (app.jsx:70-88).
+  if (!authedUser) return <Redirect href="/auth" />;
   return (
     <Tabs
       screenOptions={{

@@ -64,11 +64,11 @@ npx tsc --noEmit && npx expo lint && npx jest
 
 Fuentes en `hivo-design/auth.jsx`: AuthScreen l.4-97, HivoMark l.99-115, LoginForm l.117-158, RegisterForm l.160-239, Field l.241-263, OAuthButton l.265-281 (con AppleIcon l.283-289 y GoogleIcon l.290-301). Port notes: inputs → `TextInput` con `placeholderTextColor={colors.fgDim}`; usar `KeyboardAvoidingView`; `onAuthed(user)` → `setAuthedUser` del context + `router.replace('/')`. OAuth es mock (autentica directo con el usuario mock), igual que el prototipo.
 
-- [ ] **Step 1: Portar componentes de auth** (leer `auth.jsx` completo y transcribir)
-- [ ] **Step 2: Ruta `auth.tsx` + Redirect gate en tabs**
-- [ ] **Step 3: Probar en navegador**: arranca en /auth, login y OAuth llevan a Today, register valida campos
-- [ ] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint`
-- [ ] **Step 5: Commit** — `feat(auth): login and register screens with mock OAuth`
+- [x] **Step 1: Portar componentes de auth** (leer `auth.jsx` completo y transcribir)
+- [x] **Step 2: Ruta `auth.tsx` + Redirect gate en tabs**
+- [x] **Step 3: Probar en navegador**: arranca en /auth, login y OAuth llevan a Today, register valida campos
+- [x] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint`
+- [x] **Step 5: Commit** — `feat(auth): login and register screens with mock OAuth`
 
 ---
 
