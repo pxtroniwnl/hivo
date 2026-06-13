@@ -223,11 +223,11 @@ Fuentes en `hivo-design/other-screens.jsx`: SquadScreen l.7-109 (segmented Clan/
 
 Fuentes en `hivo-design/other-screens.jsx`: StatsScreen l.794-949 (resumen, recovery — monta el `RecoveryDial` ya hecho en home/, charts, insights), StatsSparklesIcon l.951-962, AICoachFeedbackSheet l.964-1117, InsightCard l.1119-1149, MuscleHeatmap l.1151-1178 (usa `BodyHeatmap`), BodyweightChart l.1180-1203 y LineChart l.1205-1230 (SVG puro con react-native-svg), SummaryStat l.1232-1243. Números siempre en mono con tabular-nums.
 
-- [ ] **Step 1: Portar StatsScreen + charts + heatmap + insights**
-- [ ] **Step 2: Portar AICoachFeedbackSheet**
-- [ ] **Step 3: Probar en navegador** y comparar con el prototipo
-- [ ] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 5: Commit** — `feat(stats): stats screen with charts, muscle heatmap and insights`
+- [x] **Step 1: Portar StatsScreen + charts + heatmap + insights**
+- [x] **Step 2: Portar AICoachFeedbackSheet**
+- [x] **Step 3: Probar en navegador** y comparar con el prototipo
+- [x] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 5: Commit** — `feat(stats): stats screen with charts, muscle heatmap and insights`
 
 ---
 
