@@ -96,6 +96,7 @@ export default function TodayScreen() {
                 myWorkouts={myWorkouts}
                 myRoutines={myRoutines}
                 trendingRoutines={ROUTINES.trending}
+                onStart={() => router.push('/active')}
                 onGoToTrain={() => router.navigate('/train')}
               />
             </View>

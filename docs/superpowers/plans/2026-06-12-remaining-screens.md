@@ -172,14 +172,14 @@ Fuentes en `hivo-design/active.jsx`: SET_TYPE_LABEL/COLOR l.4-20, ActiveWorkout 
 
 Lógica pura en `src/lib/active.ts`: `formatClock(seconds)` (mm:ss), `sessionProgress(exercises)` (sets hechos / totales, excluyendo warmups según CLAUDE.md si el prototipo lo hace — verificar en la fuente), `adjustedWeight(...)` (el cálculo de autoreg que muestre el prototipo). Transcribir las fórmulas exactas.
 
-- [ ] **Step 1 (TDD): Tests de helpers de `active.ts`** → FAIL
-- [ ] **Step 2: Implementar `src/lib/active.ts`** → PASS
-- [ ] **Step 3: Portar ActiveWorkout (hybrid) + ExerciseBlock + SetRow + Cell**
-- [ ] **Step 4: Portar RestTimer + sheets (Swap, Technique, Autoreg)**
-- [ ] **Step 5: Ruta `/active` + wiring de los CTAs (Home hero, Train, RoutineDetail)**
-- [ ] **Step 6: Probar en navegador**: arrancar desde Home, loguear sets, autocompletar desde última sesión, rest timer al completar set, swap, finish → vuelve a Home
-- [ ] **Step 7: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 8: Commit** — `feat(active): hybrid workout logger with rest timer, autoreg and swap`
+- [x] **Step 1 (TDD): Tests de helpers de `active.ts`** → FAIL
+- [x] **Step 2: Implementar `src/lib/active.ts`** → PASS
+- [x] **Step 3: Portar ActiveWorkout (hybrid) + ExerciseBlock + SetRow + Cell**
+- [x] **Step 4: Portar RestTimer + sheets (Swap, Technique, Autoreg)**
+- [x] **Step 5: Ruta `/active` + wiring de los CTAs (Home hero, Train, RoutineDetail)**
+- [x] **Step 6: Probar en navegador**: arrancar desde Home, loguear sets, autocompletar desde última sesión, rest timer al completar set, swap, finish → vuelve a Home
+- [x] **Step 7: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 8: Commit** — `feat(active): hybrid workout logger with rest timer, autoreg and swap`
 
 ---
 

@@ -2,10 +2,12 @@
 // (ver CLAUDE.md §Fuentes de verdad — no inventar/aproximar valores).
 
 import type {
+  ActiveExercise,
   AppNotification,
   Clan,
   FeedItem,
   Routine,
+  Technique,
   Warmup,
   WeekDay,
   Workout,
@@ -363,3 +365,115 @@ export const NOTIFICATIONS: AppNotification[] = [
   { id: 'n4', kind: 'clan', title: 'Tea M. liked your post', body: 'Pull · Heavy summary', when: '4h' },
   { id: 'n5', kind: 'mission', title: 'Mission complete', body: 'Collective volume 120k kg — clan earned 240 XP', when: 'yesterday' },
 ];
+
+// ui.jsx l.301-356 — sesión activa de ejemplo (Push · Heavy)
+export const EXERCISES: ActiveExercise[] = [
+  {
+    id: 'ex-bench', name: 'Barbell bench press', muscle: 'Chest', equipment: 'Barbell',
+    sets: [
+      { type: 'warmup', weight: 40, reps: 10, rpe: null, done: true },
+      { type: 'warmup', weight: 60, reps: 6, rpe: null, done: true },
+      { type: 'normal', weight: 80, reps: 6, rpe: 7, prescribed: { weight: 80, reps: 6, rpe: 7 }, done: false, current: true },
+      { type: 'normal', weight: 80, reps: 6, rpe: 7, prescribed: { weight: 80, reps: 6, rpe: 7 }, done: false },
+      { type: 'normal', weight: 80, reps: 6, rpe: 8, prescribed: { weight: 80, reps: 6, rpe: 8 }, done: false },
+    ],
+    rest: 150,
+    lastSession: { weight: 77.5, reps: 6, rpe: 7 },
+  },
+  {
+    id: 'ex-ohp', name: 'Seated dumbbell press', muscle: 'Shoulders', equipment: 'Dumbbells',
+    sets: [
+      { type: 'normal', weight: 22, reps: 10, rpe: 7, prescribed: { weight: 22, reps: 10, rpe: 7 }, done: false },
+      { type: 'normal', weight: 22, reps: 10, rpe: 7, prescribed: { weight: 22, reps: 10, rpe: 7 }, done: false },
+      { type: 'normal', weight: 22, reps: 10, rpe: 8, prescribed: { weight: 22, reps: 10, rpe: 8 }, done: false },
+    ],
+    rest: 90,
+    lastSession: { weight: 20, reps: 10, rpe: 7 },
+  },
+  {
+    id: 'ex-incline', name: 'Incline cable fly', muscle: 'Chest', equipment: 'Cable',
+    sets: [
+      { type: 'normal', weight: 12, reps: 12, rpe: 7, prescribed: { weight: 12, reps: 12, rpe: 7 }, done: false },
+      { type: 'normal', weight: 12, reps: 12, rpe: 7, prescribed: { weight: 12, reps: 12, rpe: 7 }, done: false },
+      { type: 'normal', weight: 12, reps: 12, rpe: 8, prescribed: { weight: 12, reps: 12, rpe: 8 }, done: false },
+    ],
+    rest: 75,
+    lastSession: { weight: 11, reps: 12, rpe: 7 },
+    unavailable: true,
+    swapSuggestions: ['Incline dumbbell fly', 'Pec deck', 'Push-up to deficit'],
+  },
+  {
+    id: 'ex-pushdown', name: 'Triceps rope pushdown', muscle: 'Triceps', equipment: 'Cable',
+    sets: [
+      { type: 'normal', weight: 25, reps: 12, rpe: 7, prescribed: { weight: 25, reps: 12, rpe: 7 }, done: false },
+      { type: 'normal', weight: 25, reps: 12, rpe: 7, prescribed: { weight: 25, reps: 12, rpe: 7 }, done: false },
+      { type: 'normal', weight: 25, reps: 12, rpe: 8, prescribed: { weight: 25, reps: 12, rpe: 8 }, done: false },
+    ],
+    rest: 60,
+    lastSession: { weight: 22.5, reps: 12, rpe: 7 },
+  },
+  {
+    id: 'ex-lateral', name: 'Lateral raise · drop set', muscle: 'Shoulders', equipment: 'Dumbbells',
+    sets: [
+      { type: 'normal', weight: 10, reps: 12, rpe: 8, prescribed: { weight: 10, reps: 12, rpe: 8 }, done: false },
+      { type: 'drop', weight: 7.5, reps: 10, rpe: 9, prescribed: { weight: 7.5, reps: 10, rpe: 9 }, done: false },
+      { type: 'drop', weight: 5, reps: 10, rpe: 10, prescribed: { weight: 5, reps: 10, rpe: 10 }, done: false },
+    ],
+    rest: 90,
+    lastSession: { weight: 9, reps: 12, rpe: 8 },
+  },
+];
+
+// ui.jsx l.581-632
+export const TECHNIQUE: Record<string, Technique> = {
+  'Barbell bench press': {
+    cues: [
+      'Retract scapulae — squeeze shoulder blades into the bench',
+      'Bar path: lower to nipple line, press up and slightly back',
+      'Feet flat, slight arch, drive through the floor',
+      'Wrists stacked over elbows — no wrist break',
+    ],
+    common: 'Flaring elbows past 75° loads the shoulder joint. Keep elbows ~45–60° from torso.',
+    sets: 'Beginners: 3×5 at RPE 7. Rest 2–3 min.',
+  },
+  'Back squat': {
+    cues: [
+      'Brace before unracking — big breath into belly, not chest',
+      'Knees track over toes, feet shoulder-width',
+      'Hips and knees break together; sit between hips',
+      'Drive whole foot through the floor on the way up',
+    ],
+    common: 'Knees caving in (valgus). Cue: "push the floor apart".',
+    sets: 'Beginners: 3×5 at RPE 7. Rest 2–3 min.',
+  },
+  Deadlift: {
+    cues: [
+      'Bar over mid-foot, shins close but not touching at start',
+      'Hinge then bend — hips back, chest proud',
+      'Lats engaged: "protect armpits" — pull slack out of the bar',
+      'Stand all the way up; lock hips and knees together',
+    ],
+    common: "Rounding the lower back. If you can't hold neutral, the weight is too heavy.",
+    sets: 'Beginners: 3×3 at RPE 7. Rest 2–3 min.',
+  },
+  'Pull-up': {
+    cues: [
+      'Dead hang, shoulders packed (not shrugged into ears)',
+      'Initiate by depressing scapulae, then pull elbows down',
+      'Chin clears the bar — full range of motion',
+      'Lower under control — 2-second eccentric',
+    ],
+    common: 'Kipping or swinging to compensate. Use a band assist instead.',
+    sets: 'Beginners: 4–5 sets of 3–6, or band-assisted to 8.',
+  },
+  default: {
+    cues: [
+      'Set up: feet stable, core braced before the first rep',
+      'Move through full range without bouncing or cheating',
+      'Control the eccentric — 2 seconds down',
+      'Match the cue, not the weight — leave 1–2 reps in reserve',
+    ],
+    common: 'Going too heavy before grooving the pattern. Drop weight, raise quality.',
+    sets: 'Beginners: 3×8–10 at RPE 6–7. Rest 60–90 s.',
+  },
+};

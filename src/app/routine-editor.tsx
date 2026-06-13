@@ -46,6 +46,7 @@ export default function RoutineEditorRoute() {
         onChange={setDraftRoutine}
         onSave={save}
         onBack={() => router.back()}
+        onStart={() => router.push('/active')}
         onShare={() => setShareOpen(true)}
       />
       {shareOpen && (

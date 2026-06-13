@@ -152,6 +152,44 @@ export type Routine = {
   exercises: RoutineExercise[];
 };
 
+// ── Logger activo (active.jsx) ──────────────────────────────────
+export type SetType = 'warmup' | 'normal' | 'drop' | 'failure' | 'superset' | 'cluster';
+
+export type SetPrescription = { weight: number; reps: number; rpe: number };
+
+export type ActiveSet = {
+  type: SetType;
+  weight: number;
+  reps: number;
+  rpe: number | null;
+  prescribed?: SetPrescription;
+  done: boolean;
+  current?: boolean;
+  /** Si autoreg intervino: siempre explícito, nunca silencioso (CLAUDE.md). */
+  adjusted?: { from: number; to: number; reason: string };
+};
+
+export type ActiveExercise = {
+  id: string;
+  name: string;
+  muscle: string;
+  equipment: string;
+  sets: ActiveSet[];
+  /** segundos */
+  rest: number;
+  lastSession: { weight: number; reps: number; rpe: number };
+  /** gym-aware: el equipamiento no está en el gym actual */
+  unavailable?: boolean;
+  swapSuggestions?: string[];
+  swapped?: boolean;
+};
+
+export type Technique = {
+  cues: string[];
+  common: string;
+  sets: string;
+};
+
 export type WorkoutDay = {
   day: string;
   name: string;
