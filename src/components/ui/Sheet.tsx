@@ -1,18 +1,27 @@
 // Port de Sheet (hivo-design/active.jsx:657-692) — modal bottom-up con scrim,
-// handle, título y botón de cierre.
-import type { ReactNode } from 'react';
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+// handle, título y botón de cierre. Motion (skills emil/impeccable): el panel
+// entra con la curva iOS-drawer y sale más rápido; el scrim hace fade
+// coordinado; gestiona su animación de salida antes de desmontar. reduce-motion
+// salta la animación.
+import { useEffect, type ReactNode } from 'react';
+import { Dimensions, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Icon } from './icons';
 import { colors, radii, type } from '@/theme';
+import { durations, easing, useReduceMotion } from '@/theme/motion';
+
+import { Icon } from './icons';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+// Distancia de entrada del panel (suficiente para arrancar fuera de pantalla).
+const TRAVEL = Math.min(Dimensions.get('window').height * 0.9, 640);
 
 type SheetProps = {
   children: ReactNode;
@@ -23,11 +32,41 @@ type SheetProps = {
 
 export function Sheet({ children, onClose, title, subtitle }: SheetProps) {
   const insets = useSafeAreaInsets();
+  const reduce = useReduceMotion();
+  const progress = useSharedValue(0);
+
+  useEffect(() => {
+    if (reduce) {
+      progress.value = 1;
+      return;
+    }
+    progress.value = withTiming(1, { duration: durations.slow, easing: easing.drawer });
+  }, [reduce, progress]);
+
+  const close = () => {
+    if (reduce) {
+      onClose();
+      return;
+    }
+    // Salida más rápida que la entrada (emil); al terminar, desmonta.
+    // eslint-disable-next-line react-hooks/immutability
+    progress.value = withTiming(0, { duration: durations.fast, easing: easing.drawer }, (finished) => {
+      'worklet';
+      if (finished) runOnJS(onClose)();
+    });
+  };
+
+  const scrimStyle = useAnimatedStyle(() => ({ opacity: progress.value }));
+  const panelStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 0.4, 1], [0, 1, 1]),
+    transform: [{ translateY: interpolate(progress.value, [0, 1], [TRAVEL, 0]) }],
+  }));
+
   return (
-    <Modal transparent animationType="slide" visible onRequestClose={onClose}>
+    <Modal transparent visible animationType="none" onRequestClose={close}>
       <View style={styles.root}>
-        <Pressable style={styles.scrim} onPress={onClose} />
-        <View style={[styles.panel, { paddingBottom: 28 + insets.bottom }]}>
+        <AnimatedPressable style={[styles.scrim, scrimStyle]} onPress={close} />
+        <Animated.View style={[styles.panel, panelStyle, { paddingBottom: 28 + insets.bottom }]}>
           <View style={styles.handleRow}>
             <View style={styles.handle} />
           </View>
@@ -36,14 +75,14 @@ export function Sheet({ children, onClose, title, subtitle }: SheetProps) {
               <Text style={type.h2}>{title}</Text>
               {subtitle ? <Text style={[type.sm, { marginTop: 4 }]}>{subtitle}</Text> : null}
             </View>
-            <Pressable style={styles.closeBtn} onPress={onClose}>
+            <Pressable style={styles.closeBtn} onPress={close}>
               <Icon.close size={14} color={colors.fgMid} />
             </Pressable>
           </View>
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             {children}
           </ScrollView>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
