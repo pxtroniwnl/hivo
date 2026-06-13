@@ -28,7 +28,7 @@
 
 ## Estado actual — qué funciona hoy
 
-El repo contiene **dos cosas**: el prototipo de diseño completo (`hivo-design/`, HTML+React por CDN, abre en navegador) y la **app real Expo en construcción**, que vive en la raíz. El primer hito de la app (spec y plan en `docs/superpowers/`) está **completo**:
+El repo contiene **dos cosas**: el prototipo de diseño completo (`hivo-design/`, HTML+React por CDN, abre en navegador) y la **app real Expo**, que vive en la raíz. **Todas las pantallas del prototipo están portadas** (spec y planes en `docs/superpowers/`):
 
 | Área | Estado | Detalle |
 | --- | --- | --- |
@@ -36,14 +36,19 @@ El repo contiene **dos cosas**: el prototipo de diseño completo (`hivo-design/`
 | Tema (tokens + tipografía + fuentes) | ✅ | Valores exactos de `hivo-design/tokens.css`; Geist + JetBrains Mono |
 | Kit de UI base | ✅ | 24 iconos SVG, Card, Chip, Button, Avatar, Ring, ProgressBar, ScreenHeader, Sheet, Stat |
 | Shell de navegación (5 tabs) | ✅ | Tab bar glass con blur (iOS) / fondo opaco (Android), acento en tab activa |
-| Datos mock tipados | ✅ | USER, CLAN, WEEK, WARMUPS, FEED, ROUTINES, WORKOUTS, NOTIFICATIONS |
-| Lógica de Today (funciones puras) | ✅ | 10 unit tests en verde (`src/lib/today.ts`) |
-| **Pantalla Today completa** | ✅ | Hero con 4 estados, week strip + detalle de día, warmups, streak, clan CTA, sheets |
-| Tabs Train / Squad / Stats / You | 🔜 | Placeholders ("Coming soon") |
-| Logger de entreno activo | 🔜 | Siguiente hito — es la pantalla sagrada del producto |
-| Supabase (auth, sync, realtime) | 🔜 | Fuera del alcance del bootstrap |
+| Estado global + auth gate | ✅ | `AppStateProvider` (clan, gamificación, drafts); login/registro con OAuth mock |
+| Datos mock tipados | ✅ | USER, CLAN, WEEK, WARMUPS, FEED, ROUTINES, WORKOUTS, NOTIFICATIONS, body-stats |
+| Lógica de negocio (funciones puras) | ✅ | 41 unit tests en verde (`today`, `library`, `coach`, `heat`, `active`) |
+| **Pantalla Today** | ✅ | Hero con 4 estados, week strip + detalle de día, warmups, streak, clan strip/feed |
+| **Train** | ✅ | Biblioteca (My Workouts/Trending/My Routines), editores de rutina y workout, AI Coach, share |
+| **Logger de entreno activo** | ✅ | Layout hybrid, rest timer, autoreg explicable, swap gym-aware, technique sheet |
+| **Squad** | ✅ | Onboarding de clan, raid con órbita, misiones, leaderboard, strength map, feed, leave flow |
+| **Stats** | ✅ | Volumen por músculo, PRs, peso corporal, strength map personal, AI Coach feedback |
+| **Profile (You)** | ✅ | Identidad, body, settings, kill-switch de gamificación, export CSV, reset destructivo |
+| **Heatmap corporal SVG** | ✅ | Silueta frente/espalda reutilizable (Stats + Squad) |
+| Supabase (auth, sync, realtime) | 🔜 | Backend real — siguiente fase |
 
-Verificación del hito: `tsc`, `expo lint` y `jest` en verde, más prueba end-to-end de todas las interacciones con la app corriendo (las capturas de abajo salen de esa sesión).
+Verificación: `tsc`, `expo lint` y `jest` (41 tests) en verde, más prueba end-to-end de todas las pantallas con la app corriendo en Expo web (las capturas de abajo salen de esa sesión).
 
 ## Capturas
 
@@ -70,6 +75,26 @@ Todo lo que se ve abajo es la **app real** (React Native corriendo en Expo web),
     <td><img src="docs/screenshots/warmup-sheet.png" width="260" alt="Sheet de warmup"/></td>
     <td><img src="docs/screenshots/notifications.png" width="260" alt="Sheet de notificaciones"/></td>
   </tr>
+  <tr>
+    <td align="center"><b>Train</b><br/><sub>Biblioteca, AI Coach, editores</sub></td>
+    <td align="center"><b>Squad · onboarding</b><br/><sub>Descubrir, preview y crear clan</sub></td>
+    <td align="center"><b>Squad · clan</b><br/><sub>Raid con órbita, misiones, feed</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/train.png" width="260" alt="Tab Train"/></td>
+    <td><img src="docs/screenshots/squad-onboarding.png" width="260" alt="Onboarding de clan"/></td>
+    <td><img src="docs/screenshots/squad-clan.png" width="260" alt="Home del clan con raid"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Stats</b><br/><sub>Volumen, PRs, peso, strength map</sub></td>
+    <td align="center"><b>Profile (You)</b><br/><sub>Identidad, settings, kill-switch</sub></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/stats.png" width="260" alt="Tab Stats"/></td>
+    <td><img src="docs/screenshots/profile.png" width="260" alt="Tab Profile"/></td>
+    <td></td>
+  </tr>
 </table>
 
 ## Cómo ejecutarla
@@ -85,42 +110,59 @@ npx expo start        # → 'w' para web, QR para Expo Go (iOS/Android)
 ```bash
 npx tsc --noEmit      # typecheck
 npx expo lint         # lint
-npx jest              # unit tests (lógica de Today)
+npx jest              # 41 unit tests (today, library, coach, heat, active)
 ```
 
 El **prototipo de diseño** se ejecuta aparte: abrir `hivo-design/Hivo Prototype.html` en un navegador (React por CDN, no necesita build).
 
 ## Mapa de navegación
 
-Cinco tabs persistentes; las acciones contextuales abren **sheets** (modales bottom-up), nunca pantallas push. El detalle de día es un estado interno de Today, no una ruta.
+Cinco tabs persistentes (Squad se oculta con el kill-switch de gamificación). Las pantallas full-screen (auth, editores, logger) son rutas Stack **fuera** de `(tabs)`; las acciones contextuales abren **sheets** (modales bottom-up), nunca pantallas push. El detalle de día es un estado interno de Today.
 
 ```mermaid
 flowchart TD
-    Root["app/_layout.tsx<br/>(fuentes, dark fijo, status bar)"] --> Tabs["(tabs)/_layout.tsx<br/>tab bar glass"]
+    Root["app/_layout.tsx<br/>(fuentes, dark fijo, AppStateProvider)"] --> Auth{"¿authedUser?"}
+    Auth -- "no" --> Login["auth.tsx<br/>login / registro (OAuth mock)"]
+    Login -- "onAuthed" --> Tabs
+    Auth -- "sí" --> Tabs["(tabs)/_layout.tsx<br/>tab bar glass"]
 
-    Tabs --> Today["🏠 Today<br/>(tabs)/index.tsx"]
-    Tabs --> Train["🏋️ Train<br/>placeholder"]
-    Tabs --> Squad["👥 Squad<br/>placeholder"]
-    Tabs --> Stats["📊 Stats<br/>placeholder"]
-    Tabs --> You["👤 You<br/>placeholder"]
+    Tabs --> Today["🏠 Today"]
+    Tabs --> Train["🏋️ Train"]
+    Tabs --> Squad["👥 Squad"]
+    Tabs --> Stats["📊 Stats"]
+    Tabs --> You["👤 You"]
 
-    Today -- "tap en día ≠ hoy" --> DayDetail["Day Detail<br/>(estado interno: past / planned / rest)"]
-    DayDetail -- "Back to today / ✕ / tap hoy" --> Today
-    DayDetail -- "Jump to day" --> DayDetail
+    Today -- "tap día / warmup / campana" --> TodaySheets[["Day Detail · Warmup · Notifications"]]
+    Today -- "Start" --> Active["active.tsx<br/>logger hybrid + sheets"]
 
-    Today -- "tap warmup card" --> WarmupSheet[["Warmup Sheet<br/>(flujo Next → Finish)"]]
-    Today -- "tap campana" --> NotifSheet[["Notifications Sheet<br/>(Mark all read)"]]
-    Today -- "Go to Train" --> Train
-    Today -- "Clan CTA" --> Squad
+    Train --> RoutineEd["routine-editor.tsx"]
+    Train --> WorkoutEd["workout-editor.tsx"]
+    Train -- "AI Coach / Share" --> TrainSheets[["AICoach · Share sheets"]]
+    Train -- "Start rutina" --> Active
+    RoutineEd -- "Start" --> Active
+
+    Squad -- "sin clan" --> Onboard["Clan onboarding<br/>(discover / preview / create)"]
+    Onboard -- "join / create" --> ClanHome["Clan home<br/>(raid · misiones · feed)"]
+    ClanHome -- "leave" --> Onboard
+
+    Stats -- "AI Coach feedback" --> CoachSheet[["Feedback sheet"]]
+    You -- "Account · My data · Reset" --> YouSheets[["Account · Export · Reset sheets"]]
+    You -- "kill-switch off" --> Tabs
+    You -- "Sign out" --> Login
 
     style Today fill:#b26bff,color:#0a0210
-    style DayDetail fill:#1d1d26,color:#f5f5f7
-    style WarmupSheet fill:#16161d,color:#b8b8c2
-    style NotifSheet fill:#16161d,color:#b8b8c2
-    style Train fill:#101014,color:#74747e
-    style Squad fill:#101014,color:#74747e
-    style Stats fill:#101014,color:#74747e
-    style You fill:#101014,color:#74747e
+    style Active fill:#7a3fe0,color:#f5f5f7
+    style ClanHome fill:#1d1d26,color:#f5f5f7
+    style Onboard fill:#1d1d26,color:#f5f5f7
+    style TodaySheets fill:#16161d,color:#b8b8c2
+    style TrainSheets fill:#16161d,color:#b8b8c2
+    style CoachSheet fill:#16161d,color:#b8b8c2
+    style YouSheets fill:#16161d,color:#b8b8c2
+    style Login fill:#16161d,color:#b8b8c2
+    style Train fill:#101014,color:#f5f5f7
+    style Squad fill:#101014,color:#f5f5f7
+    style Stats fill:#101014,color:#f5f5f7
+    style You fill:#101014,color:#f5f5f7
 ```
 
 ## La pantalla Today en detalle
@@ -205,29 +247,34 @@ flowchart LR
 ```mermaid
 flowchart TD
     subgraph routes ["src/app — rutas expo-router"]
-        layout["_layout.tsx<br/>fuentes + dark"]
-        tabs["(tabs)/_layout.tsx<br/>tab bar glass"]
+        layout["_layout.tsx<br/>fuentes + dark + AppStateProvider"]
+        tabs["(tabs)/_layout.tsx + auth gate"]
         screens["index · train · squad · stats · profile"]
+        fullscreen["auth · active · routine-editor · workout-editor"]
     end
 
-    subgraph components ["src/components"]
-        home["home/<br/>TodayHero · WeekStrip · DayDetail<br/>StreakSpiral · ClanStrip · JoinClanStrip<br/>WarmupCarousel · WarmupSheet<br/>NotificationsSheet · FeedPreview · RecoveryDial"]
+    subgraph components ["src/components — un dir por pantalla"]
+        feat["home/ · train/ · active/ · clan/<br/>squad/ · stats/ · profile/ · body/ · auth/"]
         ui["ui/<br/>icons · Card · Chip · Button · Avatar<br/>Ring · ProgressBar · ScreenHeader · Sheet · Stat"]
     end
 
     subgraph core ["núcleo sin React"]
-        libdir["lib/<br/>today.ts (funciones puras + tests)"]
-        datadir["data/<br/>types.ts · mock.ts"]
-        theme["theme/<br/>tokens.ts · typography.ts"]
+        state["state/<br/>app-state.tsx (Context)"]
+        libdir["lib/<br/>today · library · coach · heat · active<br/>(funciones puras + 41 tests)"]
+        datadir["data/<br/>types · mock · exercise-library<br/>discover-clans · body-stats"]
+        theme["theme/<br/>tokens · typography"]
     end
 
     layout --> tabs --> screens
-    screens --> home
-    home --> ui
-    home --> libdir
-    home --> datadir
+    layout --> fullscreen
+    screens --> feat
+    fullscreen --> feat
+    feat --> ui
+    feat --> state
+    feat --> libdir
+    feat --> datadir
     ui --> theme
-    home --> theme
+    feat --> theme
     libdir --> datadir
 
     style theme fill:#b26bff,color:#0a0210
@@ -244,14 +291,15 @@ Reglas que mantiene esta estructura:
 
 | Ruta | Qué es |
 | --- | --- |
-| `src/app/` | Rutas expo-router (layout raíz + 5 tabs) |
+| `src/app/` | Rutas expo-router (layout raíz + 5 tabs + rutas full-screen: auth, active, editores) |
 | `src/components/ui/` | Kit base portado del prototipo |
-| `src/components/home/` | Componentes de la pantalla Today |
+| `src/components/{home,train,active,clan,squad,stats,profile,body,auth}/` | Componentes por pantalla |
+| `src/state/` | `AppStateProvider` (Context: auth, clan, gamificación, drafts) |
 | `src/lib/` | Lógica pura + tests (`__tests__/`) |
 | `src/data/` | Tipos del dominio + datos mock |
 | `src/theme/` | Tokens canónicos (colores, radios, espaciado, tipografía) |
 | `hivo-design/` | **Prototipo de diseño** — fuente de verdad visual, intocable |
-| `docs/superpowers/` | Spec y plan de implementación del bootstrap |
+| `docs/superpowers/` | Specs y planes de implementación |
 | `docs/screenshots/` | Capturas de la app real (las de este README) |
 | `CLAUDE.md` | Reglas de diseño, modelo de dominio e insights de producto |
 
@@ -374,12 +422,13 @@ La app real **no tiene personalización de tema** (el panel de tweaks del protot
 
 Orden de batalla (el PRD define 40 features en 6 fases; esto es lo inmediato):
 
-1. ✅ **Bootstrap**: tema + kit UI + tabs + Today *(este hito)*
-2. 🔜 **Logger de entreno activo** — la pantalla sagrada: se abre 3+ veces/semana; layout hybrid, keypad alcanzable con una mano, números de la sesión anterior visibles (tap para autocompletar)
-3. 🔜 **Train**: biblioteca de workouts/rutinas, editores, marcar programa activo
-4. 🔜 **Supabase**: auth (Apple/Google/email), persistencia con RLS, **offline-first** (la decisión arquitectónica más importante: los gyms tienen mala señal)
-5. 🔜 **Squad**: clanes, raids con Realtime, misiones, feed
-6. 🔜 **Stats** (recovery dial ya está portado), **autoreg** explicable, AI Coach
+1. ✅ **Bootstrap**: tema + kit UI + tabs + Today
+2. ✅ **Logger de entreno activo** — la pantalla sagrada: layout hybrid, números de la sesión anterior visibles (tap para autocompletar), rest timer, autoreg explicable, swap gym-aware
+3. ✅ **Train**: biblioteca de workouts/rutinas, editores, AI Coach, marcar programa activo
+4. ✅ **Squad**: onboarding de clan, raid con órbita, misiones, leaderboard, feed *(con datos mock)*
+5. ✅ **Stats + Profile**: charts, strength maps, AI Coach feedback, kill-switch de gamificación
+6. 🔜 **Supabase**: auth (Apple/Google/email), persistencia con RLS, **offline-first** (la decisión arquitectónica más importante: los gyms tienen mala señal), Realtime para raids/misiones
+7. 🔜 **i18n ES/EN/PT** y **autoreg server-side** explicable
 
 Principios no negociables durante todo el roadmap: **offline-first**, **accesibilidad** (cada elemento interactivo con label/hint, probar con lector de pantalla antes de merge), **localización ES/EN/PT desde el día uno** (cero strings hard-coded — pendiente de introducir i18n antes de Train), y autoreg **siempre como sugerencia**, nunca prescripción.
 

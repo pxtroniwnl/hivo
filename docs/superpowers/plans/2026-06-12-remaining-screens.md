@@ -249,15 +249,15 @@ Fuentes en `hivo-design/other-screens.jsx`: ProfileScreen l.1245-1360 (header co
 
 ### Task 13: Verificación final + docs
 
-- [ ] **Step 1: Suite completa**
+- [x] **Step 1: Suite completa**
 
 ```bash
 npx tsc --noEmit && npx expo lint && npx jest
 ```
 
-- [ ] **Step 2: Screenshots de las pantallas nuevas** con la receta de chrome-headless-shell + puppeteer-core (ver memoria `ui-verification-recipe`) a `docs/screenshots/`, comparando lado a lado con `hivo-design/Hivo Prototype.html`
-- [ ] **Step 3: Actualizar README** (mapa de navegación + screenshots nuevos)
-- [ ] **Step 4: Commit** — `docs: README update with full navigation map and new screenshots`
+- [x] **Step 2: Screenshots de las pantallas nuevas** con la receta de chrome-headless-shell + puppeteer-core (ver memoria `ui-verification-recipe`) a `docs/screenshots/`, comparando lado a lado con `hivo-design/Hivo Prototype.html`
+- [x] **Step 3: Actualizar README** (mapa de navegación + screenshots nuevos)
+- [x] **Step 4: Commit** — `docs: README update with full navigation map and new screenshots`
 
 ---
 
