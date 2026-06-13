@@ -1,9 +1,9 @@
 // Port de WarmupCard (hivo-design/home.jsx:663-692) en carrusel horizontal con snap.
 // El proto desborda el scroll hasta el borde derecho (marginRight -18) con inset
 // izquierdo efectivo de 16px — se replica con paddings del contentContainer.
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { Icon, type IconProps } from '@/components/ui';
+import { Icon, PressableScale, type IconProps } from '@/components/ui';
 import { colors, fonts, radii, tabularNums, type } from '@/theme';
 import type { Warmup, WarmupTarget } from '@/data/types';
 
@@ -47,10 +47,7 @@ type WarmupCardProps = {
 function WarmupCard({ warmup, onOpen }: WarmupCardProps) {
   const TargetIcon = WARMUP_ICONS[warmup.target] ?? Icon.wuFullBody;
   return (
-    <Pressable
-      onPress={onOpen}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
-    >
+    <PressableScale onPress={onOpen} scaleTo={0.98} style={styles.card}>
       <View style={styles.topRow}>
         <View style={styles.iconBubble}>
           <TargetIcon size={16} color={colors.accent} />
@@ -62,7 +59,7 @@ function WarmupCard({ warmup, onOpen }: WarmupCardProps) {
         <Text style={[type.h3, styles.name]}>{warmup.name}</Text>
       </View>
       <Text style={[type.sm, styles.count]}>{warmup.exercises.length} exercises</Text>
-    </Pressable>
+    </PressableScale>
   );
 }
 
@@ -81,9 +78,6 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.line,
     gap: 8,
-  },
-  pressed: {
-    transform: [{ scale: 0.98 }],
   },
   topRow: {
     flexDirection: 'row',

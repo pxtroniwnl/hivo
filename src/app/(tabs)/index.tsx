@@ -8,7 +8,6 @@ import { useBottomTabBarHeight } from 'expo-router/build/react-navigation/bottom
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ClanStrip } from '@/components/home/ClanStrip';
@@ -21,7 +20,7 @@ import { TodayHero } from '@/components/home/TodayHero';
 import { WarmupCarousel } from '@/components/home/WarmupCarousel';
 import { WarmupSheet } from '@/components/home/WarmupSheet';
 import { WeekStrip } from '@/components/home/WeekStrip';
-import { Avatar, Icon } from '@/components/ui';
+import { Avatar, Icon, Rise } from '@/components/ui';
 import { FEED, ROUTINES, USER, WARMUPS, WEEK } from '@/data/mock';
 import type { Warmup } from '@/data/types';
 import { getGreeting } from '@/lib/today';
@@ -93,7 +92,7 @@ export default function TodayScreen() {
         ) : (
           <>
             {/* Hero del entreno de hoy */}
-            <View style={styles.heroWrap}>
+            <Rise index={0} style={styles.heroWrap}>
               <TodayHero
                 myWorkouts={myWorkouts}
                 myRoutines={myRoutines}
@@ -101,49 +100,49 @@ export default function TodayScreen() {
                 onStart={() => router.push('/active')}
                 onGoToTrain={() => router.navigate('/train')}
               />
-            </View>
+            </Rise>
 
             {/* Carrusel de warmups */}
-            <Animated.View entering={FadeInDown.delay(80).duration(400)} style={styles.section}>
+            <Rise index={1} style={styles.section}>
               <View style={styles.sectionHead}>
                 <Text style={type.xs}>Warm up first</Text>
                 <Text style={[type.sm, styles.sectionHint]}>5–10 min</Text>
               </View>
               <WarmupCarousel warmups={WARMUPS} onOpen={setWarmupOpen} />
-            </Animated.View>
+            </Rise>
 
             {/* Semana */}
-            <Animated.View entering={FadeInDown.duration(400)} style={styles.weekSection}>
+            <Rise index={2} style={styles.weekSection}>
               <View style={[styles.sectionHead, styles.weekHead]}>
                 <Text style={type.xs}>This week</Text>
                 <Text style={[type.sm, { color: colors.fgMute }]}>4/5 logged</Text>
               </View>
               <WeekStrip week={WEEK} selectedIdx={selectedIdx} onPickDay={setSelectedIdx} />
-            </Animated.View>
+            </Rise>
 
             {/* Streak (oculto si el kill-switch de gamificación está apagado) */}
             {gamification ? (
-              <Animated.View entering={FadeInDown.delay(60).duration(400)} style={styles.cardSection}>
+              <Rise index={3} style={styles.cardSection}>
                 <StreakSpiral days={USER.streak} shields={USER.shields} />
-              </Animated.View>
+              </Rise>
             ) : null}
 
             {/* Clan: con clan → strip + feed preview; sin clan → CTA de descubrir.
                 Toda la sección de clan se oculta sin gamificación. */}
             {gamification ? (
               <>
-                <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.cardSection}>
+                <Rise index={4} style={styles.cardSection}>
                   {userClan ? (
                     <ClanStrip clan={userClan} onOpen={() => router.navigate('/squad')} />
                   ) : (
                     <JoinClanStrip onOpen={() => router.navigate('/squad')} />
                   )}
-                </Animated.View>
+                </Rise>
 
                 {userClan ? (
-                  <Animated.View entering={FadeInDown.delay(160).duration(400)} style={styles.cardSection}>
+                  <Rise index={5} style={styles.cardSection}>
                     <FeedPreview feed={FEED} onSeeAll={() => router.navigate('/squad')} />
-                  </Animated.View>
+                  </Rise>
                 ) : null}
               </>
             ) : null}

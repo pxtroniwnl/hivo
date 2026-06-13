@@ -1,8 +1,8 @@
 // Port de ClanStrip (hivo-design/home.jsx:454-482), corrigiendo el bug del
 // prototipo (l.461-464: objeto style duplicado como texto hijo) — un solo style.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Chip, Icon, Ring } from '@/components/ui';
+import { Chip, Icon, PressableScale, Ring } from '@/components/ui';
 import { colors, fonts, radii, type } from '@/theme';
 import type { Clan } from '@/data/types';
 
@@ -13,10 +13,7 @@ type ClanStripProps = {
 
 export function ClanStrip({ clan, onOpen }: ClanStripProps) {
   return (
-    <Pressable
-      onPress={onOpen}
-      style={({ pressed }) => [styles.root, pressed && styles.pressed]}
-    >
+    <PressableScale onPress={onOpen} scaleTo={0.98} style={styles.root}>
       <View style={styles.ringWrap}>
         <Ring size={44} value={clan.rankProgress} stroke={3} color={colors.accent}>
           <Text style={styles.tag}>{clan.tag.slice(0, 3)}</Text>
@@ -33,7 +30,7 @@ export function ClanStrip({ clan, onOpen }: ClanStripProps) {
         </Text>
       </View>
       <Icon.arrow size={18} color={colors.fgMute} />
-    </Pressable>
+    </PressableScale>
   );
 }
 
@@ -48,9 +45,6 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.line,
     borderRadius: radii.md,
-  },
-  pressed: {
-    transform: [{ scale: 0.98 }],
   },
   ringWrap: {
     width: 44,

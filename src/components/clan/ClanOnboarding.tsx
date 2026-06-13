@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
-import { Button, Card, Icon, ScreenHeader } from '@/components/ui';
+import { Button, Card, Icon, ScreenHeader, Segmented } from '@/components/ui';
 import { DISCOVER_CLANS } from '@/data/discover-clans';
 import type { Clan, DiscoverClan } from '@/data/types';
 import { colors, fonts, radii, screenInset, type } from '@/theme';
@@ -144,25 +144,14 @@ export function ClanOnboarding({ onJoined, topPadding = 8, bottomPadding = 24 }:
         ) : (
           <>
             <View style={styles.section}>
-              <View style={styles.segmented}>
-                {(
-                  [
-                    { id: 'trending', label: 'Trending' },
-                    { id: 'all', label: 'All clans' },
-                  ] as const
-                ).map((t) => {
-                  const active = tab === t.id;
-                  return (
-                    <Pressable
-                      key={t.id}
-                      onPress={() => setTab(t.id)}
-                      style={[styles.segBtn, active && styles.segBtnActive]}
-                    >
-                      <Text style={[styles.segText, active && styles.segTextActive]}>{t.label}</Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
+              <Segmented
+                options={[
+                  { id: 'trending', label: 'Trending' },
+                  { id: 'all', label: 'All clans' },
+                ]}
+                value={tab}
+                onChange={(id) => setTab(id as 'trending' | 'all')}
+              />
             </View>
             <View style={[styles.section, styles.cardList]}>
               {list.map((c) => (
@@ -238,16 +227,4 @@ const styles = StyleSheet.create({
   empty: { padding: 22, alignItems: 'center' },
   emptyBtn: { marginTop: 12, backgroundColor: colors.bg3 },
   cardList: { gap: 8 },
-  segmented: {
-    flexDirection: 'row',
-    backgroundColor: colors.bg2,
-    borderRadius: radii.sm,
-    padding: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-  },
-  segBtn: { flex: 1, paddingVertical: 9, paddingHorizontal: 12, borderRadius: radii.sm, alignItems: 'center' },
-  segBtnActive: { backgroundColor: colors.bg3 },
-  segText: { fontFamily: fonts.sansMedium, fontSize: 13, color: colors.fgMute },
-  segTextActive: { color: colors.fg },
 });

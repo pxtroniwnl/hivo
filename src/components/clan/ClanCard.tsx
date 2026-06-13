@@ -1,8 +1,8 @@
 // Port de ClanCard (clan-onboarding.jsx:235-266): fila pulsable con badge,
 // nombre, chips de estado y metadatos (ID · members · rank).
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Chip, Icon } from '@/components/ui';
+import { Chip, Icon, PressableScale } from '@/components/ui';
 import type { DiscoverClan } from '@/data/types';
 import { colors, fonts, radii, type } from '@/theme';
 
@@ -16,10 +16,7 @@ type ClanCardProps = {
 
 export function ClanCard({ clan, requested, onTap }: ClanCardProps) {
   return (
-    <Pressable
-      onPress={onTap}
-      style={({ pressed }) => [styles.card, pressed && { transform: [{ scale: 0.98 }] }]}
-    >
+    <PressableScale onPress={onTap} scaleTo={0.98} style={styles.card}>
       <ClanGlyph color={clan.color} width={48} height={48} radius={12}>
         <Text style={styles.tag}>{clan.tag.slice(0, 3)}</Text>
       </ClanGlyph>
@@ -48,7 +45,7 @@ export function ClanCard({ clan, requested, onTap }: ClanCardProps) {
         </View>
       </View>
       <Icon.arrow size={16} color={colors.fgMute} />
-    </Pressable>
+    </PressableScale>
   );
 }
 

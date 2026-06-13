@@ -1,7 +1,7 @@
 // Port de JoinClanStrip (hivo-design/home.jsx:484-515) — CTA para descubrir/crear clan.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Chip, Icon } from '@/components/ui';
+import { Chip, Icon, PressableScale } from '@/components/ui';
 import { colors, radii, type } from '@/theme';
 
 type JoinClanStripProps = {
@@ -10,10 +10,7 @@ type JoinClanStripProps = {
 
 export function JoinClanStrip({ onOpen }: JoinClanStripProps) {
   return (
-    <Pressable
-      onPress={onOpen}
-      style={({ pressed }) => [styles.root, pressed && styles.pressed]}
-    >
+    <PressableScale onPress={onOpen} scaleTo={0.98} style={styles.root}>
       {/* Glow del proto: círculo accent opacity 0.08 con blur(28px);
           se aproxima sin blur, igual que el glow del TodayHero. */}
       <View style={styles.glow} />
@@ -30,7 +27,7 @@ export function JoinClanStrip({ onOpen }: JoinClanStripProps) {
         <Text style={[type.sm, styles.subtitle]}>Find a clan, create your own, or train solo.</Text>
       </View>
       <Icon.arrow size={18} color={colors.fgMute} />
-    </Pressable>
+    </PressableScale>
   );
 }
 
@@ -48,9 +45,6 @@ const styles = StyleSheet.create({
     borderRadius: radii.md,
     position: 'relative',
     overflow: 'hidden',
-  },
-  pressed: {
-    transform: [{ scale: 0.98 }],
   },
   glow: {
     position: 'absolute',

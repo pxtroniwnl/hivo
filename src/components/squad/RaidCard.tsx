@@ -1,14 +1,23 @@
 // Port de RaidCard (other-screens.jsx:245-348): anillo de órbita con dots de
 // miembros distribuidos por su cuota del volumen, banner de rescue y strip de
 // contribuidores. Daño = volumen en el lift objetivo (CLAN.md §Raid).
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import Svg, { Circle, Defs, G, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 
 import { Avatar, Card, Chip, Icon, ProgressBar } from '@/components/ui';
 import type { Raid } from '@/data/types';
+import { useCountUp } from '@/lib/use-count-up';
 import { colors, fonts, radii, type } from '@/theme';
+import { durations, easing, useReduceMotion } from '@/theme/motion';
 
 const SIZE = 200;
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export function RaidCard({ raid }: { raid: Raid }) {
   const pct = raid.target > 0 ? raid.current / raid.target : 0;
@@ -18,6 +27,22 @@ export function RaidCard({ raid }: { raid: Raid }) {
   const circ = 2 * Math.PI * r;
   const behind = raid.contributions.filter((m) => m.behind);
   const topValue = raid.contributions[0]?.value || 1;
+
+  // El aro se dibuja al montar (de vacío a pct) y el total cuenta hacia arriba.
+  const reduce = useReduceMotion();
+  const offset = useSharedValue(circ);
+  const lifted = useCountUp(raid.current, { duration: Math.max(durations.enter, 900) });
+
+  useEffect(() => {
+    const target = circ * (1 - pct);
+    if (reduce) {
+      offset.value = target;
+    } else {
+      offset.value = withTiming(target, { duration: 900, easing: easing.signature });
+    }
+  }, [circ, pct, reduce, offset]);
+
+  const ringProps = useAnimatedProps(() => ({ strokeDashoffset: offset.value }));
 
   // Posición de cada dot según la fracción acumulada del total (other-screens.jsx:285-310):
   // el ángulo usa la suma de las contribuciones *anteriores*, no la propia.
@@ -55,7 +80,7 @@ export function RaidCard({ raid }: { raid: Raid }) {
             </LinearGradient>
           </Defs>
           <Circle cx={cx} cy={cy} r={r} fill="none" stroke={colors.bg4} strokeWidth={3} />
-          <Circle
+          <AnimatedCircle
             cx={cx}
             cy={cy}
             r={r}
@@ -64,7 +89,7 @@ export function RaidCard({ raid }: { raid: Raid }) {
             strokeWidth={6}
             strokeLinecap="round"
             strokeDasharray={circ}
-            strokeDashoffset={circ * (1 - pct)}
+            animatedProps={ringProps}
             transform={`rotate(-90 ${cx} ${cy})`}
           />
           {dots.map((m) => (
@@ -95,7 +120,7 @@ export function RaidCard({ raid }: { raid: Raid }) {
         <View style={styles.ringCenter}>
           <Text style={[type.xs, { color: colors.fgMute }]}>LIFTED</Text>
           <Text style={styles.lifted}>
-            {(raid.current / 1000).toFixed(1)}
+            {(lifted / 1000).toFixed(1)}
             <Text style={styles.liftedK}>k</Text>
           </Text>
           <Text style={[type.sm, { marginTop: 2 }]}>

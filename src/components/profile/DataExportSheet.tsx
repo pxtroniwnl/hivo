@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import { Button, Icon, Sheet } from '@/components/ui';
+import { Button, Icon, Segmented, Sheet } from '@/components/ui';
 import { colors, fonts, radii, type } from '@/theme';
 
 type Scope = 'last30' | 'year' | 'all';
@@ -59,16 +59,12 @@ export function DataExportSheet({ onClose }: { onClose: () => void }) {
   return (
     <Sheet onClose={onClose} title="My data" subtitle="Export everything you've logged">
       <Text style={[type.xs, styles.label]}>Time range</Text>
-      <View style={styles.segmented}>
-        {SCOPES.map((o) => {
-          const active = scope === o.id;
-          return (
-            <Pressable key={o.id} onPress={() => setScope(o.id)} style={[styles.segBtn, active && styles.segBtnActive]}>
-              <Text style={[styles.segText, active && styles.segTextActive]}>{o.label}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <Segmented
+        options={SCOPES}
+        value={scope}
+        onChange={(id) => setScope(id as Scope)}
+        style={styles.rangeSegmented}
+      />
 
       <Text style={[type.xs, styles.label]}>Include</Text>
       <View style={{ gap: 6, marginBottom: 16 }}>
@@ -116,11 +112,7 @@ export function DataExportSheet({ onClose }: { onClose: () => void }) {
 
 const styles = StyleSheet.create({
   label: { marginBottom: 8 },
-  segmented: { flexDirection: 'row', backgroundColor: colors.bg3, borderRadius: radii.sm, padding: 3, marginBottom: 16 },
-  segBtn: { flex: 1, paddingVertical: 9, paddingHorizontal: 8, borderRadius: radii.sm, alignItems: 'center' },
-  segBtnActive: { backgroundColor: colors.bg2 },
-  segText: { fontFamily: fonts.sansMedium, fontSize: 12, color: colors.fgMute },
-  segTextActive: { color: colors.fg },
+  rangeSegmented: { marginBottom: 16 },
   option: {
     flexDirection: 'row',
     alignItems: 'center',

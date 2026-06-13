@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-import { Button, Icon, ScreenHeader, Sheet } from '@/components/ui';
+import { Button, Icon, ScreenHeader, Segmented, Sheet } from '@/components/ui';
 import type { Clan } from '@/data/types';
 import { colors, fonts, radii, screenInset, type } from '@/theme';
 
@@ -51,22 +51,14 @@ export function SquadScreen({ clan, onLeave, topPadding = 8, bottomPadding = 24 
 
         {/* Segmented */}
         <View style={styles.section}>
-          <View style={styles.segmented}>
-            {(['clan', 'feed'] as const).map((t) => {
-              const active = tab === t;
-              return (
-                <Pressable
-                  key={t}
-                  onPress={() => setTab(t)}
-                  style={[styles.segBtn, active && styles.segBtnActive]}
-                >
-                  <Text style={[styles.segText, active && styles.segTextActive]}>
-                    {t === 'feed' ? 'Feed' : 'Clan'}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
+          <Segmented
+            options={[
+              { id: 'clan', label: 'Clan' },
+              { id: 'feed', label: 'Feed' },
+            ]}
+            value={tab}
+            onChange={(id) => setTab(id as 'clan' | 'feed')}
+          />
         </View>
 
         {tab === 'clan' ? <ClanTab clan={clan} /> : <FeedTab clan={clan} />}
@@ -167,18 +159,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   section: { paddingHorizontal: screenInset, paddingBottom: 14 },
-  segmented: {
-    flexDirection: 'row',
-    backgroundColor: colors.bg2,
-    borderRadius: radii.sm,
-    padding: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-  },
-  segBtn: { flex: 1, paddingVertical: 9, paddingHorizontal: 12, borderRadius: radii.sm, alignItems: 'center' },
-  segBtnActive: { backgroundColor: colors.bg3 },
-  segText: { fontFamily: fonts.sansMedium, fontSize: 13, color: colors.fgMute },
-  segTextActive: { color: colors.fg },
   menuRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 14, borderRadius: radii.sm },
   menuIcon: {
     width: 30,

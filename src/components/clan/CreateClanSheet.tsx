@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { Button, Icon, Sheet } from '@/components/ui';
+import { Button, Icon, Segmented, Sheet } from '@/components/ui';
 import { CLAN_COLORS, makeClanId } from '@/data/discover-clans';
 import type { Clan } from '@/data/types';
 import { colors, fonts, radii, type } from '@/theme';
@@ -101,25 +101,14 @@ export function CreateClanSheet({ onClose, onCreate }: CreateClanSheetProps) {
         {/* Privacy */}
         <View>
           <Text style={[type.xs, styles.fieldLabel]}>Joining</Text>
-          <View style={styles.segmented}>
-            {(
-              [
-                { id: 'open', label: 'Open · approve' },
-                { id: 'invite', label: 'Invite only' },
-              ] as const
-            ).map((p) => {
-              const active = privacy === p.id;
-              return (
-                <Pressable
-                  key={p.id}
-                  onPress={() => setPrivacy(p.id)}
-                  style={[styles.segBtn, active && styles.segBtnActive]}
-                >
-                  <Text style={[styles.segText, active && styles.segTextActive]}>{p.label}</Text>
-                </Pressable>
-              );
-            })}
-          </View>
+          <Segmented
+            options={[
+              { id: 'open', label: 'Open · approve' },
+              { id: 'invite', label: 'Invite only' },
+            ]}
+            value={privacy}
+            onChange={(id) => setPrivacy(id as 'open' | 'invite')}
+          />
         </View>
       </View>
 
@@ -206,11 +195,6 @@ const styles = StyleSheet.create({
   swatchWrap: { borderRadius: 8 },
   swatch: { borderWidth: StyleSheet.hairlineWidth, borderColor: colors.line, borderRadius: 8 },
   swatchActive: { borderWidth: 2, borderColor: colors.fg, borderRadius: 8 },
-  segmented: { flexDirection: 'row', backgroundColor: colors.bg3, borderRadius: radii.sm, padding: 3 },
-  segBtn: { flex: 1, paddingVertical: 8, paddingHorizontal: 10, borderRadius: radii.sm, alignItems: 'center' },
-  segBtnActive: { backgroundColor: colors.bg2 },
-  segText: { fontFamily: fonts.sansMedium, fontSize: 12, color: colors.fgMute },
-  segTextActive: { color: colors.fg },
   createBtn: { marginTop: 18 },
   footnote: {
     fontFamily: fonts.sans,

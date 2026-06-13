@@ -1,7 +1,7 @@
 // Port de ProgramCard (train.jsx:596-655): card mixta para routine/workout.
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Icon } from '@/components/ui';
+import { Icon, PressableScale } from '@/components/ui';
 import type { LibraryItem } from '@/lib/library';
 import { colors, fonts, radii, type } from '@/theme';
 
@@ -17,10 +17,7 @@ type ProgramCardProps = {
 export function ProgramCard({ item, onOpen, showStats }: ProgramCardProps) {
   const isWorkout = item.kind === 'workout';
   return (
-    <Pressable
-      onPress={onOpen}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
-    >
+    <PressableScale onPress={onOpen} scaleTo={0.98} style={styles.card}>
       <GradientTile size={46} soft={!isWorkout}>
         {isWorkout ? (
           <WorkoutGlyph size={20} color={colors.accentFg} detailed />
@@ -63,7 +60,7 @@ export function ProgramCard({ item, onOpen, showStats }: ProgramCardProps) {
         </View>
       )}
       <Icon.arrow size={16} color={colors.fgMute} />
-    </Pressable>
+    </PressableScale>
   );
 }
 
@@ -77,9 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg2,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.line,
-  },
-  pressed: {
-    transform: [{ scale: 0.98 }],
   },
   body: {
     flex: 1,
