@@ -1,8 +1,7 @@
 // Port de .btn / .btn-primary / .btn-ghost (hivo-design/tokens.css:142-154).
-// Press = scale 0.98, como el prototipo (:active).
+// Press = scale animado (0.97, curva firma) vía PressableScale — no un snap.
 import type { ReactNode } from 'react';
 import {
-  Pressable,
   StyleSheet,
   Text,
   type PressableProps,
@@ -12,6 +11,8 @@ import {
 } from 'react-native';
 
 import { colors, fonts, radii } from '@/theme';
+
+import { PressableScale } from './PressableScale';
 
 type ButtonProps = Omit<PressableProps, 'style'> & {
   children: ReactNode;
@@ -34,13 +35,12 @@ export function Button({
   ...rest
 }: ButtonProps) {
   return (
-    <Pressable
-      style={({ pressed }) => [
+    <PressableScale
+      style={[
         styles.base,
         variant === 'primary' && styles.primary,
         variant === 'ghost' && styles.ghost,
         block && styles.block,
-        pressed && { transform: [{ scale: 0.98 }] },
         style,
       ]}
       {...rest}
@@ -57,7 +57,7 @@ export function Button({
         {children}
       </Text>
       {iconRight}
-    </Pressable>
+    </PressableScale>
   );
 }
 
