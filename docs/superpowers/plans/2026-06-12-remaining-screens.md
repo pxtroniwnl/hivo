@@ -239,11 +239,11 @@ Fuentes en `hivo-design/other-screens.jsx`: StatsScreen l.794-949 (resumen, reco
 
 Fuentes en `hivo-design/other-screens.jsx`: ProfileScreen l.1245-1360 (header con avatar/rank, mini stats, menú de settings — **incluye el kill-switch de gamificación**, la única personalización que sobrevive: togglearlo debe ocultar el tab Squad vía context de Task 1 y el streak en Home), MiniStat l.1362-1372, AccountSheet l.1374-1453 + SheetField l.1455-1480, DataExportSheet l.1482-1637, ResetHistorySheet l.1639-1719 (confirmación destructiva). Logout → `setAuthedUser(null)` → Redirect a /auth.
 
-- [ ] **Step 1: Portar ProfileScreen + sheets**
-- [ ] **Step 2: Wire kill-switch → context** (tab Squad desaparece; Home oculta streak/clan si `!gamification` — comprobar cómo lo hace `home.jsx` con el prop `gamification` y replicar)
-- [ ] **Step 3: Probar en navegador**: toggle gamification, account sheet, export, reset, logout
-- [ ] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 5: Commit** — `feat(profile): profile screen with gamification kill-switch and account sheets`
+- [x] **Step 1: Portar ProfileScreen + sheets**
+- [x] **Step 2: Wire kill-switch → context** (tab Squad desaparece; Home oculta streak/clan si `!gamification` — comprobar cómo lo hace `home.jsx` con el prop `gamification` y replicar)
+- [x] **Step 3: Probar en navegador**: toggle gamification, account sheet, export, reset, logout
+- [x] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 5: Commit** — `feat(profile): profile screen with gamification kill-switch and account sheets`
 
 ---
 

@@ -32,7 +32,7 @@ export default function TodayScreen() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const router = useRouter();
-  const { myWorkouts, myRoutines, userClan } = useAppState();
+  const { myWorkouts, myRoutines, userClan, gamification } = useAppState();
 
   const todayIdx = WEEK.findIndex((d) => d.status === 'today');
   const [selectedIdx, setSelectedIdx] = useState(todayIdx);
@@ -121,24 +121,31 @@ export default function TodayScreen() {
               <WeekStrip week={WEEK} selectedIdx={selectedIdx} onPickDay={setSelectedIdx} />
             </Animated.View>
 
-            {/* Streak */}
-            <Animated.View entering={FadeInDown.delay(60).duration(400)} style={styles.cardSection}>
-              <StreakSpiral days={USER.streak} shields={USER.shields} />
-            </Animated.View>
-
-            {/* Clan: con clan → strip + feed preview; sin clan → CTA de descubrir. */}
-            <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.cardSection}>
-              {userClan ? (
-                <ClanStrip clan={userClan} onOpen={() => router.navigate('/squad')} />
-              ) : (
-                <JoinClanStrip onOpen={() => router.navigate('/squad')} />
-              )}
-            </Animated.View>
-
-            {userClan ? (
-              <Animated.View entering={FadeInDown.delay(160).duration(400)} style={styles.cardSection}>
-                <FeedPreview feed={FEED} onSeeAll={() => router.navigate('/squad')} />
+            {/* Streak (oculto si el kill-switch de gamificación está apagado) */}
+            {gamification ? (
+              <Animated.View entering={FadeInDown.delay(60).duration(400)} style={styles.cardSection}>
+                <StreakSpiral days={USER.streak} shields={USER.shields} />
               </Animated.View>
+            ) : null}
+
+            {/* Clan: con clan → strip + feed preview; sin clan → CTA de descubrir.
+                Toda la sección de clan se oculta sin gamificación. */}
+            {gamification ? (
+              <>
+                <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.cardSection}>
+                  {userClan ? (
+                    <ClanStrip clan={userClan} onOpen={() => router.navigate('/squad')} />
+                  ) : (
+                    <JoinClanStrip onOpen={() => router.navigate('/squad')} />
+                  )}
+                </Animated.View>
+
+                {userClan ? (
+                  <Animated.View entering={FadeInDown.delay(160).duration(400)} style={styles.cardSection}>
+                    <FeedPreview feed={FEED} onSeeAll={() => router.navigate('/squad')} />
+                  </Animated.View>
+                ) : null}
+              </>
             ) : null}
           </>
         )}
