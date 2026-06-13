@@ -11,7 +11,9 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { ClanStrip } from '@/components/home/ClanStrip';
 import { DayDetail } from '@/components/home/DayDetail';
+import { FeedPreview } from '@/components/home/FeedPreview';
 import { JoinClanStrip } from '@/components/home/JoinClanStrip';
 import { NotificationsSheet } from '@/components/home/NotificationsSheet';
 import { StreakSpiral } from '@/components/home/StreakSpiral';
@@ -20,7 +22,7 @@ import { WarmupCarousel } from '@/components/home/WarmupCarousel';
 import { WarmupSheet } from '@/components/home/WarmupSheet';
 import { WeekStrip } from '@/components/home/WeekStrip';
 import { Avatar, Icon } from '@/components/ui';
-import { ROUTINES, USER, WARMUPS, WEEK } from '@/data/mock';
+import { FEED, ROUTINES, USER, WARMUPS, WEEK } from '@/data/mock';
 import type { Warmup } from '@/data/types';
 import { getGreeting } from '@/lib/today';
 import { useAppState } from '@/state/app-state';
@@ -30,7 +32,7 @@ export default function TodayScreen() {
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
   const router = useRouter();
-  const { myWorkouts, myRoutines } = useAppState();
+  const { myWorkouts, myRoutines, userClan } = useAppState();
 
   const todayIdx = WEEK.findIndex((d) => d.status === 'today');
   const [selectedIdx, setSelectedIdx] = useState(todayIdx);
@@ -124,10 +126,20 @@ export default function TodayScreen() {
               <StreakSpiral days={USER.streak} shields={USER.shields} />
             </Animated.View>
 
-            {/* CTA de clan (sin clan aún; con clan iría ClanStrip + FeedPreview) */}
+            {/* Clan: con clan → strip + feed preview; sin clan → CTA de descubrir. */}
             <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.cardSection}>
-              <JoinClanStrip onOpen={() => router.navigate('/squad')} />
+              {userClan ? (
+                <ClanStrip clan={userClan} onOpen={() => router.navigate('/squad')} />
+              ) : (
+                <JoinClanStrip onOpen={() => router.navigate('/squad')} />
+              )}
             </Animated.View>
+
+            {userClan ? (
+              <Animated.View entering={FadeInDown.delay(160).duration(400)} style={styles.cardSection}>
+                <FeedPreview feed={FEED} onSeeAll={() => router.navigate('/squad')} />
+              </Animated.View>
+            ) : null}
           </>
         )}
       </ScrollView>

@@ -207,11 +207,11 @@ Fuentes en `hivo-design/clan-onboarding.jsx`: DISCOVER_CLANS l.5-63 (→ `src/da
 
 Fuentes en `hivo-design/other-screens.jsx`: SquadScreen l.7-109 (segmented Clan/Feed, menú ⋯ con invite/members/settings/ID, leave con confirmación destructiva), MenuRow l.111-131, ClanTab l.133-243 (incluye clan strength map con `BodyHeatmap` de Task 3), RaidCard l.245-348 (HP bar + órbita de miembros), MissionCard l.350-373, FeedTab l.375-576 (posts con datos locales del archivo), PostComposer l.578-674, CommentIcon l.676-685, SEARCHABLE_CLANS l.687-692, ClanSearch l.694-780. Leave clan → `setUserClan(null)` → vuelve al onboarding (Task 9). Anti-toxicidad (CLAUDE.md): el % de contribución individual solo del propio usuario.
 
-- [ ] **Step 1: Portar SquadScreen + ClanTab (raid, misiones, leaderboard, heatmap)**
-- [ ] **Step 2: Portar FeedTab + PostComposer + ClanSearch**
-- [ ] **Step 3: Probar en navegador**: unirse vía onboarding → ver clan; tabs Clan/Feed; postear; leave → onboarding otra vez; JoinClanStrip de Home lleva a Squad
-- [ ] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 5: Commit** — `feat(squad): clan screen with raid, missions, feed and leave flow`
+- [x] **Step 1: Portar SquadScreen + ClanTab (raid, misiones, leaderboard, heatmap)**
+- [x] **Step 2: Portar FeedTab + PostComposer + ClanSearch**
+- [x] **Step 3: Probar en navegador**: unirse vía onboarding → ver clan; tabs Clan/Feed; postear; leave → onboarding otra vez; JoinClanStrip de Home lleva a Squad
+- [x] **Step 4: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 5: Commit** — `feat(squad): clan screen with raid, missions, feed and leave flow`
 
 ---
 
