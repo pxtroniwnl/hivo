@@ -45,9 +45,11 @@ export type Mission = {
 };
 
 export type Clan = {
+  id?: string;
   name: string;
   tag: string;
   members: number;
+  max?: number;
   rank: string;
   /** 0..1 */
   rankProgress: number;
@@ -55,6 +57,32 @@ export type Clan = {
   online: number;
   raid: Raid;
   missions: Mission[];
+  /** Gradiente [from, to] del banner; el del clan onboarding/create. */
+  color?: [string, string];
+  description?: string;
+  isFounder?: boolean;
+  /** Marca un clan recién unido vía el flujo de descubrimiento. */
+  fromOnboarding?: boolean;
+};
+
+// ── Clan onboarding (clan-onboarding.jsx) ───────────────────────
+export type DiscoverClan = {
+  id: string;
+  name: string;
+  tag: string;
+  members: number;
+  max: number;
+  rank: string;
+  region: string;
+  description: string;
+  /** Gradiente [from, to] del banner del clan. */
+  color: [string, string];
+  trending: boolean;
+  openToJoin: boolean;
+  weeklyVolume: number;
+  prs: number;
+  ageRange: string;
+  sample: string[];
 };
 
 export type LoggedExercise = {

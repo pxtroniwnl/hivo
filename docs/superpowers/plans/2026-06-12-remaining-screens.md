@@ -191,10 +191,10 @@ Lógica pura en `src/lib/active.ts`: `formatClock(seconds)` (mm:ss), `sessionPro
 
 Fuentes en `hivo-design/clan-onboarding.jsx`: DISCOVER_CLANS l.5-63 (→ `src/data/discover-clans.ts`), ClanOnboarding l.65-230 (descubrir + buscar + crear), ClanCard l.232-266, ClanPreviewSheet l.268-374 + PreviewStat l.376-388 (request → simulate accept → `onJoined(clan)`), CLAN_COLORS l.390-397, CreateClanSheet l.399-497 + FieldC l.499-530, SearchIconC l.532-541. `onJoined` → `setUserClan` del context.
 
-- [ ] **Step 1: Portar onboarding completo + datos**
-- [ ] **Step 2: Probar en navegador**: explorar clanes, preview, request+accept te une; crear clan propio también
-- [ ] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
-- [ ] **Step 4: Commit** — `feat(clan): discover, preview and create clan onboarding`
+- [x] **Step 1: Portar onboarding completo + datos**
+- [x] **Step 2: Probar en navegador**: explorar clanes, preview, request+accept te une; crear clan propio también
+- [x] **Step 3: Verificar** `npx tsc --noEmit && npx expo lint && npx jest`
+- [x] **Step 4: Commit** — `feat(clan): discover, preview and create clan onboarding`
 
 ---
 
